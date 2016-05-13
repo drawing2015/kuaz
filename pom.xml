@@ -1,17 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.openmg.trike</groupId>
-    <artifactId>trike</artifactId>
+    <groupId>io.openmg.kuaz</groupId>
+    <artifactId>kuaz</artifactId>
     <version>0.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <prerequisites>
         <maven>2.2.1</maven>
     </prerequisites>
-    <name>Trike: The Workhorse for Gremlin</name>
-    <url>http://openmg.github.com/trike/</url>
+    <name>Kuaz: The Workhorse for Gremlin</name>
+    <url>https://github.com/openmg/kuaz</url>
 
     <description>
-        Trike is a distributed, high-performance TinkerPop implementation for massive-scale workloads.
+        Kuaz is a distributed, high-performance TinkerPop implementation for massive-scale workloads.
     </description>
     <developers>
         <developer>
@@ -28,13 +28,13 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:git:git@github.com:openmg/trike.git</connection>
-        <developerConnection>scm:git:git@github.com:openmg/trike.git</developerConnection>
-        <url>git@github.com:openmg/trike.git</url>
+        <connection>scm:git:git@github.com:openmg/kuaz.git</connection>
+        <developerConnection>scm:git:git@github.com:openmg/kuaz.git</developerConnection>
+        <url>git@github.com:openmg/kuaz.git</url>
         <tag>HEAD</tag>
     </scm>
     <properties>
-        <trike.compatible.versions />
+        <kuaz.compatible.versions />
         <tinkerpop.version>3.2.0-incubating</tinkerpop.version>
         <cassandra.version>2.1.9</cassandra.version>
         <junit.version>4.12</junit.version>
@@ -49,7 +49,7 @@
         <jackson1.version>1.9.2</jackson1.version>
         <jackson2.version>2.4.4</jackson2.version>
         <!-- ES depends on Lucene.  This ES dependency can affect the
-             version used by the trike-lucene module.  When updating
+             version used by the titan-lucene module.  When updating
              the ES version, also consider the version of Lucene, and
              vice-versa. -->
         <lucene.version>4.10.4</lucene.version>
@@ -67,7 +67,7 @@
         <jasper.version>5.5.23</jasper.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <trike.testdir>${project.build.directory}/trike-test</trike.testdir>
+        <kuaz.testdir>${project.build.directory}/kuaz-test</kuaz.testdir>
         <gpg.skip>false</gpg.skip>
         <perf.jvm.opts />
         <default.test.jvm.opts>-Xms256m -Xmx768m -XX:+HeapDumpOnOutOfMemoryError -ea ${test.extra.jvm.opts}</default.test.jvm.opts>
@@ -79,10 +79,10 @@
         <compiler.source>1.8</compiler.source>
         <compiler.target>1.8</compiler.target>
         <compiler.args />
-        <test.excluded.groups>io.openmg.trike.testcategory.MemoryTests,io.openmg.trike.testcategory.PerformanceTests,io.openmg.trike.testcategory.BrittleTests</test.excluded.groups>
+        <test.excluded.groups>io.openmg.kuaz.testcategory.MemoryTests,io.openmg.kuaz.testcategory.PerformanceTests,io.openmg.kuaz.testcategory.BrittleTests</test.excluded.groups>
     </properties>
     <modules>
-        <module>trike-core</module>
+        <module>kuaz-core</module>
     </modules>
     <repositories>
         <repository>
@@ -361,7 +361,7 @@
                           </settings>
                         -->
                         <server>github</server>
-                        <repositoryName>trike</repositoryName>
+                        <repositoryName>kuaz</repositoryName>
                         <repositoryOwner>openmg</repositoryOwner>
                     </configuration>
                 </plugin>
@@ -721,7 +721,7 @@
             <dependency>
                 <!-- Run the full test suite when changing the Guava version.
                      The Guava team is deadly serious about their 18 month period from deprecation
-                     to feature deletion, and as a result, at least one of trike's dependencies is
+                     to feature deletion, and as a result, at least one of kuaz's dependencies is
                      likely to break whenever the Guava version changes.
 
                      Example where blithely upgrading Guava introduced a linkage error in the past:
