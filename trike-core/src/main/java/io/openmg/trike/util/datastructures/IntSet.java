@@ -1,0 +1,16 @@
+package io.openmg.trike.util.datastructures;
+
+
+public interface IntSet {
+
+    public boolean add(int value);
+
+    public boolean addAll(int[] values);
+
+    public boolean contains(int value);
+
+    public int[] getAll();
+
+    public int size();
+
+}
