@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import io.openmg.kuaz.core.EdgeLabel;
 import io.openmg.kuaz.core.PropertyKey;
 import io.openmg.kuaz.core.TitanRelation;
-import io.openmg.kuaz.diskstorage.Entry;
+import io.openmg.kuaz.storage.Entry;
 import io.openmg.kuaz.graphdb.database.EdgeSerializer;
 import io.openmg.kuaz.graphdb.internal.InternalRelation;
 import io.openmg.kuaz.graphdb.internal.InternalRelationType;

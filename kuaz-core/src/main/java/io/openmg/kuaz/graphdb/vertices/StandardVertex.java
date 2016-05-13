@@ -2,9 +2,8 @@ package io.openmg.kuaz.graphdb.vertices;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
-import io.openmg.kuaz.diskstorage.Entry;
-import io.openmg.kuaz.diskstorage.EntryList;
-import io.openmg.kuaz.diskstorage.keycolumnvalue.SliceQuery;
+import io.openmg.kuaz.storage.EntryList;
+import io.openmg.kuaz.storage.keycolumnvalue.SliceQuery;
 import io.openmg.kuaz.graphdb.internal.ElementLifeCycle;
 import io.openmg.kuaz.graphdb.internal.InternalRelation;
 import io.openmg.kuaz.graphdb.transaction.StandardTitanTx;
@@ -12,10 +11,7 @@ import io.openmg.kuaz.graphdb.transaction.addedrelations.AddedRelationsContainer
 import io.openmg.kuaz.graphdb.transaction.addedrelations.ConcurrentAddedRelations;
 import io.openmg.kuaz.graphdb.transaction.addedrelations.SimpleAddedRelations;
 import io.openmg.kuaz.util.datastructures.Retriever;
-import org.apache.tinkerpop.gremlin.structure.Vertex;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**

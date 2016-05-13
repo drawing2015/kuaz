@@ -1,7 +1,7 @@
 package io.openmg.kuaz.graphdb.vertices;
 
-import io.openmg.kuaz.diskstorage.EntryList;
-import io.openmg.kuaz.diskstorage.keycolumnvalue.SliceQuery;
+import io.openmg.kuaz.storage.EntryList;
+import io.openmg.kuaz.storage.keycolumnvalue.SliceQuery;
 import io.openmg.kuaz.graphdb.transaction.StandardTitanTx;
 import io.openmg.kuaz.util.datastructures.Retriever;
 

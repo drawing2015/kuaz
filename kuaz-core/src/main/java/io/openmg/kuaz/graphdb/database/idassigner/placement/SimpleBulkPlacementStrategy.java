@@ -2,12 +2,8 @@ package io.openmg.kuaz.graphdb.database.idassigner.placement;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-import com.google.common.io.BaseEncoding;
-import io.openmg.kuaz.diskstorage.StaticBuffer;
-import io.openmg.kuaz.diskstorage.configuration.ConfigOption;
-import io.openmg.kuaz.diskstorage.configuration.Configuration;
-import io.openmg.kuaz.diskstorage.util.BufferUtil;
+import io.openmg.kuaz.storage.configuration.ConfigOption;
+import io.openmg.kuaz.storage.configuration.Configuration;
 import io.openmg.kuaz.graphdb.configuration.GraphDatabaseConfiguration;
 import io.openmg.kuaz.graphdb.configuration.PreInitializeConfigOptions;
 import io.openmg.kuaz.graphdb.database.idassigner.IDPoolExhaustedException;

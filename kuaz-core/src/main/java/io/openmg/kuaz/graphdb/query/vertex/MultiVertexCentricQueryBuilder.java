@@ -3,7 +3,7 @@ package io.openmg.kuaz.graphdb.query.vertex;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 import io.openmg.kuaz.core.*;
-import io.openmg.kuaz.diskstorage.keycolumnvalue.SliceQuery;
+import io.openmg.kuaz.storage.keycolumnvalue.SliceQuery;
 import io.openmg.kuaz.graphdb.internal.InternalVertex;
 import io.openmg.kuaz.graphdb.internal.RelationCategory;
 import io.openmg.kuaz.graphdb.query.BackendQueryHolder;

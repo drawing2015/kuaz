@@ -7,8 +7,8 @@ import io.openmg.kuaz.core.TitanGraph;
 import io.openmg.kuaz.core.schema.SchemaStatus;
 import io.openmg.kuaz.core.schema.TitanGraphIndex;
 import io.openmg.kuaz.core.schema.TitanManagement;
-import io.openmg.kuaz.diskstorage.util.time.Timer;
-import io.openmg.kuaz.diskstorage.util.time.TimestampProviders;
+import io.openmg.kuaz.storage.util.time.Timer;
+import io.openmg.kuaz.storage.util.time.TimestampProviders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

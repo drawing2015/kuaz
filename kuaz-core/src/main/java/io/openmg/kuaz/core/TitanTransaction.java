@@ -1,10 +1,6 @@
 package io.openmg.kuaz.core;
 
-import io.openmg.kuaz.core.schema.*;
 import io.openmg.kuaz.graphdb.relations.RelationIdentifier;
-
-import java.util.Collection;
-import java.util.Iterator;
 
 /**
  * TitanTransaction defines a transactional context for a {@link TitanGraph}. Since TitanGraph is a transactional graph
@@ -78,7 +74,7 @@ public interface TitanTransaction extends TitanGraphTransaction {
      * The call releases data structures if possible. All element references (e.g. vertex objects) retrieved
      * through this transaction are stale after the transaction closes and should no longer be used.
      *
-     * @throws io.openmg.kuaz.diskstorage.BackendException
+     * @throws io.openmg.kuaz.storage.BackendException
      *          if an error arises during persistence
      */
     public void commit();
@@ -89,7 +85,7 @@ public interface TitanTransaction extends TitanGraphTransaction {
      * The call releases data structures if possible. All element references (e.g. vertex objects) retrieved
      * through this transaction are stale after the transaction closes and should no longer be used.
      *
-     * @throws io.openmg.kuaz.diskstorage.BackendException
+     * @throws io.openmg.kuaz.storage.BackendException
      *          if an error arises when releasing the transaction handle
      */
     public void rollback();

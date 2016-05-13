@@ -4,10 +4,10 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import io.openmg.kuaz.core.log.Change;
-import io.openmg.kuaz.diskstorage.ReadBuffer;
-import io.openmg.kuaz.diskstorage.StaticBuffer;
-import io.openmg.kuaz.diskstorage.util.BufferUtil;
-import io.openmg.kuaz.diskstorage.util.HashingUtil;
+import io.openmg.kuaz.storage.ReadBuffer;
+import io.openmg.kuaz.storage.StaticBuffer;
+import io.openmg.kuaz.storage.util.BufferUtil;
+import io.openmg.kuaz.storage.util.HashingUtil;
 import io.openmg.kuaz.graphdb.database.idhandling.VariableLong;
 import io.openmg.kuaz.graphdb.database.serialize.DataOutput;
 import io.openmg.kuaz.graphdb.database.serialize.Serializer;
@@ -15,7 +15,7 @@ import io.openmg.kuaz.graphdb.internal.InternalRelation;
 import io.openmg.kuaz.graphdb.log.StandardTransactionId;
 import io.openmg.kuaz.graphdb.transaction.StandardTitanTx;
 import io.openmg.kuaz.graphdb.transaction.TransactionConfiguration;
-import io.openmg.kuaz.diskstorage.util.time.TimestampProvider;
+import io.openmg.kuaz.storage.util.time.TimestampProvider;
 import org.apache.commons.lang.StringUtils;
 
 import java.time.Instant;
@@ -67,7 +67,7 @@ public class TransactionLogHeader {
         VariableLong.writePositive(out,relations.size());
         for (InternalRelation rel : relations) {
             VariableLong.writePositive(out,rel.getVertex(0).longId());
-            io.openmg.kuaz.diskstorage.Entry entry = tx.getEdgeSerializer().writeRelation(rel, 0, tx);
+            io.openmg.kuaz.storage.Entry entry = tx.getEdgeSerializer().writeRelation(rel, 0, tx);
             BufferUtil.writeEntry(out,entry);
         }
     }
@@ -218,7 +218,7 @@ public class TransactionLogHeader {
             long size = VariableLong.readPositive(in);
             for (int i = 0; i < size; i++) {
                 long vid = VariableLong.readPositive(in);
-                io.openmg.kuaz.diskstorage.Entry entry = BufferUtil.readEntry(in,serializer);
+                io.openmg.kuaz.storage.Entry entry = BufferUtil.readEntry(in,serializer);
                 mods.add(new Modification(state,vid,entry));
             }
             return mods;
@@ -248,9 +248,9 @@ public class TransactionLogHeader {
 
         public final Change state;
         public final long outVertexId;
-        public final io.openmg.kuaz.diskstorage.Entry relationEntry;
+        public final io.openmg.kuaz.storage.Entry relationEntry;
 
-        private Modification(Change state, long outVertexId, io.openmg.kuaz.diskstorage.Entry relationEntry) {
+        private Modification(Change state, long outVertexId, io.openmg.kuaz.storage.Entry relationEntry) {
             this.state = state;
             this.outVertexId = outVertexId;
             this.relationEntry = relationEntry;

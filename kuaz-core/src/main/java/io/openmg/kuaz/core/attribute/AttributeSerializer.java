@@ -1,8 +1,8 @@
 package io.openmg.kuaz.core.attribute;
 
 import com.google.common.base.Preconditions;
-import io.openmg.kuaz.diskstorage.ScanBuffer;
-import io.openmg.kuaz.diskstorage.WriteBuffer;
+import io.openmg.kuaz.storage.ScanBuffer;
+import io.openmg.kuaz.storage.WriteBuffer;
 
 
 /**

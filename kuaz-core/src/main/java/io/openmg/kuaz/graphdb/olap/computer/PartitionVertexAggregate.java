@@ -1,7 +1,6 @@
 package io.openmg.kuaz.graphdb.olap.computer;
 
-import io.openmg.kuaz.diskstorage.EntryList;
-import org.apache.tinkerpop.gremlin.process.computer.MessageCombiner;
+import io.openmg.kuaz.storage.EntryList;
 import org.apache.tinkerpop.gremlin.process.computer.MessageScope;
 
 import java.util.Collections;

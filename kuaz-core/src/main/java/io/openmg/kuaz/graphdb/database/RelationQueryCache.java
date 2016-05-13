@@ -2,12 +2,11 @@ package io.openmg.kuaz.graphdb.database;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import io.openmg.kuaz.diskstorage.keycolumnvalue.SliceQuery;
+import io.openmg.kuaz.storage.keycolumnvalue.SliceQuery;
 import io.openmg.kuaz.graphdb.internal.InternalRelationType;
 import io.openmg.kuaz.graphdb.internal.RelationCategory;
 import org.apache.tinkerpop.gremlin.structure.Direction;
 
-import java.io.Closeable;
 import java.util.EnumMap;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;

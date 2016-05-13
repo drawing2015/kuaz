@@ -3,9 +3,8 @@ package io.openmg.kuaz.graphdb.database.serialize.attribute;
 import java.lang.reflect.Array;
 
 import io.openmg.kuaz.core.attribute.AttributeSerializer;
-import io.openmg.kuaz.diskstorage.ScanBuffer;
-import io.openmg.kuaz.diskstorage.WriteBuffer;
-import io.openmg.kuaz.graphdb.database.serialize.SupportsNullSerializer;
+import io.openmg.kuaz.storage.ScanBuffer;
+import io.openmg.kuaz.storage.WriteBuffer;
 
 public class ByteArraySerializer extends ArraySerializer implements AttributeSerializer<byte[]> {
 

@@ -2,8 +2,8 @@ package io.openmg.kuaz.graphdb.database.serialize.attribute;
 
 import io.openmg.kuaz.core.attribute.AttributeSerializer;
 import io.openmg.kuaz.core.schema.Parameter;
-import io.openmg.kuaz.diskstorage.ScanBuffer;
-import io.openmg.kuaz.diskstorage.WriteBuffer;
+import io.openmg.kuaz.storage.ScanBuffer;
+import io.openmg.kuaz.storage.WriteBuffer;
 import io.openmg.kuaz.graphdb.database.serialize.DataOutput;
 import io.openmg.kuaz.graphdb.database.serialize.Serializer;
 import io.openmg.kuaz.graphdb.database.serialize.SerializerInjected;

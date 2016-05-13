@@ -3,8 +3,8 @@ package io.openmg.kuaz.graphdb.idmanagement;
 
 import com.google.common.base.Preconditions;
 import io.openmg.kuaz.core.InvalidIDException;
-import io.openmg.kuaz.diskstorage.StaticBuffer;
-import io.openmg.kuaz.diskstorage.util.BufferUtil;
+import io.openmg.kuaz.storage.StaticBuffer;
+import io.openmg.kuaz.storage.util.BufferUtil;
 import io.openmg.kuaz.graphdb.database.idhandling.VariableLong;
 
 /**

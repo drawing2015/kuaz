@@ -1,7 +1,7 @@
 package io.openmg.kuaz.graphdb.tinkerpop;
 
 import com.google.common.collect.Sets;
-import io.openmg.kuaz.diskstorage.configuration.WriteConfiguration;
+import io.openmg.kuaz.storage.configuration.WriteConfiguration;
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.util.StringFactory;
 import org.apache.commons.lang3.StringUtils;

@@ -2,10 +2,10 @@ package io.openmg.kuaz.graphdb.olap.computer;
 
 import io.openmg.kuaz.core.TitanGraph;
 import io.openmg.kuaz.core.TitanVertex;
-import io.openmg.kuaz.diskstorage.EntryList;
-import io.openmg.kuaz.diskstorage.configuration.Configuration;
-import io.openmg.kuaz.diskstorage.keycolumnvalue.SliceQuery;
-import io.openmg.kuaz.diskstorage.keycolumnvalue.scan.ScanMetrics;
+import io.openmg.kuaz.storage.EntryList;
+import io.openmg.kuaz.storage.configuration.Configuration;
+import io.openmg.kuaz.storage.keycolumnvalue.SliceQuery;
+import io.openmg.kuaz.storage.keycolumnvalue.scan.ScanMetrics;
 import io.openmg.kuaz.graphdb.database.StandardTitanGraph;
 import io.openmg.kuaz.graphdb.database.idhandling.IDHandler;
 import io.openmg.kuaz.graphdb.idmanagement.IDManager;

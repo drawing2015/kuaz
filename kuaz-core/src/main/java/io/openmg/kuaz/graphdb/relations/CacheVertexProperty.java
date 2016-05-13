@@ -5,7 +5,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import io.openmg.kuaz.core.schema.ConsistencyModifier;
 import io.openmg.kuaz.core.PropertyKey;
-import io.openmg.kuaz.diskstorage.Entry;
+import io.openmg.kuaz.storage.Entry;
 import io.openmg.kuaz.graphdb.internal.ElementLifeCycle;
 import io.openmg.kuaz.graphdb.internal.InternalRelation;
 import io.openmg.kuaz.graphdb.internal.InternalVertex;

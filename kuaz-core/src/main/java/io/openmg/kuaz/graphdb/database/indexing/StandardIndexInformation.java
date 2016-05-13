@@ -1,13 +1,11 @@
 package io.openmg.kuaz.graphdb.database.indexing;
 
-import com.google.common.base.Preconditions;
 import io.openmg.kuaz.core.attribute.Cmp;
 import io.openmg.kuaz.core.attribute.Contain;
-import io.openmg.kuaz.diskstorage.indexing.IndexFeatures;
-import io.openmg.kuaz.diskstorage.indexing.IndexInformation;
-import io.openmg.kuaz.diskstorage.indexing.KeyInformation;
+import io.openmg.kuaz.storage.indexing.IndexFeatures;
+import io.openmg.kuaz.storage.indexing.IndexInformation;
+import io.openmg.kuaz.storage.indexing.KeyInformation;
 import io.openmg.kuaz.graphdb.query.TitanPredicate;
-import org.apache.commons.lang.StringUtils;
 
 /**
  * @author Matthias Broecheler (me@matthiasb.com)

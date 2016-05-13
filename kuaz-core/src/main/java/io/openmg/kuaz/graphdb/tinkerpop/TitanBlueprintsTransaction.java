@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import io.openmg.kuaz.core.TitanTransaction;
 import io.openmg.kuaz.core.TitanVertex;
 import io.openmg.kuaz.core.VertexLabel;
-import io.openmg.kuaz.diskstorage.util.Hex;
+import io.openmg.kuaz.storage.util.Hex;
 import io.openmg.kuaz.graphdb.olap.computer.FulgoraGraphComputer;
 import io.openmg.kuaz.graphdb.relations.RelationIdentifier;
 import io.openmg.kuaz.graphdb.types.system.BaseVertexLabel;
@@ -22,7 +22,6 @@ import org.slf4j.LoggerFactory;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**

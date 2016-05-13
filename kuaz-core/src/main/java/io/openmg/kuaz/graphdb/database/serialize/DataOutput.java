@@ -1,7 +1,7 @@
 package io.openmg.kuaz.graphdb.database.serialize;
 
-import io.openmg.kuaz.diskstorage.StaticBuffer;
-import io.openmg.kuaz.diskstorage.WriteBuffer;
+import io.openmg.kuaz.storage.StaticBuffer;
+import io.openmg.kuaz.storage.WriteBuffer;
 
 public interface DataOutput extends WriteBuffer {
 

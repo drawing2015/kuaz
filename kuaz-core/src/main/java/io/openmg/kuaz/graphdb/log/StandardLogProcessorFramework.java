@@ -10,9 +10,9 @@ import io.openmg.kuaz.core.log.LogProcessorFramework;
 import io.openmg.kuaz.core.schema.TitanSchemaElement;
 import io.openmg.kuaz.core.log.Change;
 import io.openmg.kuaz.core.log.ChangeProcessor;
-import io.openmg.kuaz.diskstorage.*;
-import io.openmg.kuaz.diskstorage.log.*;
-import io.openmg.kuaz.diskstorage.util.time.TimestampProvider;
+import io.openmg.kuaz.storage.*;
+import io.openmg.kuaz.storage.log.*;
+import io.openmg.kuaz.storage.util.time.TimestampProvider;
 import io.openmg.kuaz.graphdb.database.StandardTitanGraph;
 import io.openmg.kuaz.graphdb.database.log.LogTxMeta;
 import io.openmg.kuaz.graphdb.database.log.TransactionLogHeader;
@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Matthias Broecheler (me@matthiasb.com)

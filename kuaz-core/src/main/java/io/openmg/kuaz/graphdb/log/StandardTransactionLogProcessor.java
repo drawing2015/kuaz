@@ -10,14 +10,14 @@ import io.openmg.kuaz.core.TitanElement;
 import io.openmg.kuaz.core.TitanException;
 import io.openmg.kuaz.core.TitanTransaction;
 import io.openmg.kuaz.core.log.TransactionRecovery;
-import io.openmg.kuaz.diskstorage.*;
-import io.openmg.kuaz.diskstorage.indexing.IndexEntry;
-import io.openmg.kuaz.diskstorage.indexing.IndexTransaction;
-import io.openmg.kuaz.diskstorage.log.*;
-import io.openmg.kuaz.diskstorage.util.BackendOperation;
+import io.openmg.kuaz.storage.*;
+import io.openmg.kuaz.storage.indexing.IndexEntry;
+import io.openmg.kuaz.storage.indexing.IndexTransaction;
+import io.openmg.kuaz.storage.log.*;
+import io.openmg.kuaz.storage.util.BackendOperation;
 
 
-import io.openmg.kuaz.diskstorage.util.time.TimestampProvider;
+import io.openmg.kuaz.storage.util.time.TimestampProvider;
 import io.openmg.kuaz.graphdb.configuration.GraphDatabaseConfiguration;
 import io.openmg.kuaz.graphdb.database.StandardTitanGraph;
 import io.openmg.kuaz.graphdb.database.log.LogTxMeta;

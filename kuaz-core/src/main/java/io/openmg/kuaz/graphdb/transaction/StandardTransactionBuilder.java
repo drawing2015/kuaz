@@ -3,19 +3,18 @@ package io.openmg.kuaz.graphdb.transaction;
 import static io.openmg.kuaz.graphdb.configuration.GraphDatabaseConfiguration.ROOT_NS;
 
 import java.time.Instant;
-import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.Preconditions;
 import io.openmg.kuaz.core.schema.DefaultSchemaMaker;
 import io.openmg.kuaz.core.TitanTransaction;
 import io.openmg.kuaz.core.TransactionBuilder;
-import io.openmg.kuaz.diskstorage.configuration.*;
+import io.openmg.kuaz.storage.configuration.*;
 
-import io.openmg.kuaz.diskstorage.BaseTransactionConfig;
-import io.openmg.kuaz.diskstorage.util.StandardBaseTransactionConfig;
+import io.openmg.kuaz.storage.BaseTransactionConfig;
+import io.openmg.kuaz.storage.util.StandardBaseTransactionConfig;
 import io.openmg.kuaz.graphdb.configuration.GraphDatabaseConfiguration;
 import io.openmg.kuaz.graphdb.database.StandardTitanGraph;
-import io.openmg.kuaz.diskstorage.util.time.TimestampProvider;
+import io.openmg.kuaz.storage.util.time.TimestampProvider;
 
 /**
  * Used to configure a {@link io.openmg.kuaz.core.TitanTransaction}.

@@ -1,7 +1,7 @@
 package io.openmg.kuaz.graphdb.transaction;
 
 import io.openmg.kuaz.core.schema.DefaultSchemaMaker;
-import io.openmg.kuaz.diskstorage.BaseTransactionConfig;
+import io.openmg.kuaz.storage.BaseTransactionConfig;
 
 /**
  * Provides configuration options for {@link io.openmg.kuaz.core.TitanTransaction}.

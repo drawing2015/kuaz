@@ -2,7 +2,7 @@ package io.openmg.kuaz.graphdb.query.graph;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import io.openmg.kuaz.diskstorage.indexing.IndexQuery;
+import io.openmg.kuaz.storage.indexing.IndexQuery;
 import io.openmg.kuaz.graphdb.query.BackendQuery;
 import io.openmg.kuaz.graphdb.query.BaseQuery;
 import io.openmg.kuaz.graphdb.query.profile.ProfileObservable;

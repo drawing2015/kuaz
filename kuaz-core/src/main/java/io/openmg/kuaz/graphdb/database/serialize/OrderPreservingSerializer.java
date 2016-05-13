@@ -1,8 +1,8 @@
 package io.openmg.kuaz.graphdb.database.serialize;
 
 import io.openmg.kuaz.core.attribute.AttributeSerializer;
-import io.openmg.kuaz.diskstorage.ScanBuffer;
-import io.openmg.kuaz.diskstorage.WriteBuffer;
+import io.openmg.kuaz.storage.ScanBuffer;
+import io.openmg.kuaz.storage.WriteBuffer;
 
 /**
  * Interface that extends {@link AttributeSerializer} to provide a serialization that is byte order preserving, i.e. the

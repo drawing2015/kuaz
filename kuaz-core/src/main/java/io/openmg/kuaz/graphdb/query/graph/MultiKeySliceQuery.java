@@ -1,9 +1,9 @@
 package io.openmg.kuaz.graphdb.query.graph;
 
 import com.google.common.base.Preconditions;
-import io.openmg.kuaz.diskstorage.BackendTransaction;
-import io.openmg.kuaz.diskstorage.EntryList;
-import io.openmg.kuaz.diskstorage.keycolumnvalue.KeySliceQuery;
+import io.openmg.kuaz.storage.BackendTransaction;
+import io.openmg.kuaz.storage.EntryList;
+import io.openmg.kuaz.storage.keycolumnvalue.KeySliceQuery;
 import io.openmg.kuaz.graphdb.query.BackendQuery;
 import io.openmg.kuaz.graphdb.query.BaseQuery;
 import org.apache.commons.lang.builder.HashCodeBuilder;

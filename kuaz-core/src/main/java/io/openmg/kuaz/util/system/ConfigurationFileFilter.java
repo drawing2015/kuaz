@@ -2,8 +2,8 @@ package io.openmg.kuaz.util.system;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
-import io.openmg.kuaz.diskstorage.configuration.ConfigElement;
-import io.openmg.kuaz.diskstorage.configuration.ConfigOption;
+import io.openmg.kuaz.storage.configuration.ConfigElement;
+import io.openmg.kuaz.storage.configuration.ConfigOption;
 import io.openmg.kuaz.graphdb.configuration.GraphDatabaseConfiguration;
 import org.apache.commons.lang.WordUtils;
 import org.slf4j.Logger;

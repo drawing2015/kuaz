@@ -2,11 +2,10 @@ package io.openmg.kuaz.graphdb.database.idassigner.placement;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
-import io.openmg.kuaz.core.TitanProperty;
 import io.openmg.kuaz.core.TitanVertex;
 import io.openmg.kuaz.core.TitanVertexProperty;
-import io.openmg.kuaz.diskstorage.configuration.ConfigOption;
-import io.openmg.kuaz.diskstorage.configuration.Configuration;
+import io.openmg.kuaz.storage.configuration.ConfigOption;
+import io.openmg.kuaz.storage.configuration.Configuration;
 import io.openmg.kuaz.graphdb.configuration.GraphDatabaseConfiguration;
 import io.openmg.kuaz.graphdb.configuration.PreInitializeConfigOptions;
 import io.openmg.kuaz.graphdb.database.idassigner.IDPoolExhaustedException;

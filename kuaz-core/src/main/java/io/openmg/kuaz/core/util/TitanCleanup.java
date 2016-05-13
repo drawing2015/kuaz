@@ -3,13 +3,12 @@ package io.openmg.kuaz.core.util;
 import com.google.common.base.Preconditions;
 import io.openmg.kuaz.core.TitanGraph;
 
-import io.openmg.kuaz.diskstorage.util.BackendOperation;
+import io.openmg.kuaz.storage.util.BackendOperation;
 import io.openmg.kuaz.graphdb.configuration.GraphDatabaseConfiguration;
 import io.openmg.kuaz.graphdb.database.StandardTitanGraph;
 
 import java.time.Duration;
 import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Utility class containing methods that simplify Titan clean-up processes.

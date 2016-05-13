@@ -2,8 +2,8 @@ package io.openmg.kuaz.graphdb.olap;
 
 import io.openmg.kuaz.core.TitanGraph;
 import io.openmg.kuaz.core.TitanVertex;
-import io.openmg.kuaz.diskstorage.configuration.Configuration;
-import io.openmg.kuaz.diskstorage.keycolumnvalue.scan.ScanMetrics;
+import io.openmg.kuaz.storage.configuration.Configuration;
+import io.openmg.kuaz.storage.keycolumnvalue.scan.ScanMetrics;
 
 /**
  * Expresses a computation over all vertices ina a graph database. Process is called for each vertex that is previously
@@ -16,7 +16,7 @@ import io.openmg.kuaz.diskstorage.keycolumnvalue.scan.ScanMetrics;
 public interface VertexScanJob extends Cloneable {
 
     /**
-     * @see io.openmg.kuaz.diskstorage.keycolumnvalue.scan.ScanJob
+     * @see io.openmg.kuaz.storage.keycolumnvalue.scan.ScanJob
      *
      * @param graph
      * @param config
@@ -25,7 +25,7 @@ public interface VertexScanJob extends Cloneable {
     public default void workerIterationStart(TitanGraph graph, Configuration config, ScanMetrics metrics) {}
 
     /**
-     * @see io.openmg.kuaz.diskstorage.keycolumnvalue.scan.ScanJob
+     * @see io.openmg.kuaz.storage.keycolumnvalue.scan.ScanJob
      *
      * @param metrics
      */

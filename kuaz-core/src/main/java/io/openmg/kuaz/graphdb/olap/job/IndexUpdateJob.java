@@ -5,10 +5,10 @@ import io.openmg.kuaz.core.RelationType;
 import io.openmg.kuaz.core.TitanException;
 import io.openmg.kuaz.core.TitanGraph;
 import io.openmg.kuaz.core.schema.TitanIndex;
-import io.openmg.kuaz.diskstorage.configuration.ConfigNamespace;
-import io.openmg.kuaz.diskstorage.configuration.ConfigOption;
-import io.openmg.kuaz.diskstorage.configuration.Configuration;
-import io.openmg.kuaz.diskstorage.keycolumnvalue.scan.ScanMetrics;
+import io.openmg.kuaz.storage.configuration.ConfigNamespace;
+import io.openmg.kuaz.storage.configuration.ConfigOption;
+import io.openmg.kuaz.storage.configuration.Configuration;
+import io.openmg.kuaz.storage.keycolumnvalue.scan.ScanMetrics;
 import io.openmg.kuaz.graphdb.configuration.GraphDatabaseConfiguration;
 import io.openmg.kuaz.graphdb.database.StandardTitanGraph;
 import io.openmg.kuaz.graphdb.database.management.ManagementSystem;
@@ -19,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Matthias Broecheler (me@matthiasb.com)

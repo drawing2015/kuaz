@@ -1,12 +1,9 @@
 package io.openmg.kuaz.util.system;
 
 import com.google.common.base.Preconditions;
-import io.openmg.kuaz.core.util.ReflectiveConfigOptionLoader;
-import io.openmg.kuaz.diskstorage.configuration.BasicConfiguration;
-import io.openmg.kuaz.diskstorage.configuration.ConfigElement;
-import io.openmg.kuaz.diskstorage.configuration.ConfigOption;
-import io.openmg.kuaz.diskstorage.configuration.ModifiableConfiguration;
-import io.openmg.kuaz.diskstorage.configuration.backend.CommonsConfiguration;
+import io.openmg.kuaz.storage.configuration.ConfigElement;
+import io.openmg.kuaz.storage.configuration.ConfigOption;
+import io.openmg.kuaz.storage.configuration.backend.CommonsConfiguration;
 import io.openmg.kuaz.graphdb.configuration.GraphDatabaseConfiguration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;

@@ -5,12 +5,12 @@ import com.google.common.collect.ImmutableList;
 import io.openmg.kuaz.core.TitanGraph;
 import io.openmg.kuaz.core.TitanRelation;
 import io.openmg.kuaz.core.TitanVertex;
-import io.openmg.kuaz.diskstorage.EntryList;
-import io.openmg.kuaz.diskstorage.StaticBuffer;
-import io.openmg.kuaz.diskstorage.configuration.Configuration;
-import io.openmg.kuaz.diskstorage.keycolumnvalue.SliceQuery;
-import io.openmg.kuaz.diskstorage.keycolumnvalue.scan.ScanMetrics;
-import io.openmg.kuaz.diskstorage.util.BufferUtil;
+import io.openmg.kuaz.storage.EntryList;
+import io.openmg.kuaz.storage.StaticBuffer;
+import io.openmg.kuaz.storage.configuration.Configuration;
+import io.openmg.kuaz.storage.keycolumnvalue.SliceQuery;
+import io.openmg.kuaz.storage.keycolumnvalue.scan.ScanMetrics;
+import io.openmg.kuaz.storage.util.BufferUtil;
 import io.openmg.kuaz.graphdb.configuration.GraphDatabaseConfiguration;
 import io.openmg.kuaz.graphdb.olap.QueryContainer;
 import io.openmg.kuaz.graphdb.olap.VertexJobConverter;
@@ -24,7 +24,6 @@ import java.time.Instant;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Matthias Broecheler (me@matthiasb.com)

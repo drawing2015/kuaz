@@ -6,10 +6,9 @@ import com.spatial4j.core.context.SpatialContext;
 import com.spatial4j.core.distance.DistanceUtils;
 import com.spatial4j.core.shape.Shape;
 import com.spatial4j.core.shape.SpatialRelation;
-import io.openmg.kuaz.diskstorage.ScanBuffer;
-import io.openmg.kuaz.diskstorage.WriteBuffer;
+import io.openmg.kuaz.storage.ScanBuffer;
+import io.openmg.kuaz.storage.WriteBuffer;
 import io.openmg.kuaz.graphdb.database.idhandling.VariableLong;
-import io.openmg.kuaz.graphdb.relations.RelationIdentifier;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import org.apache.tinkerpop.gremlin.structure.io.graphson.GraphSONTokens;

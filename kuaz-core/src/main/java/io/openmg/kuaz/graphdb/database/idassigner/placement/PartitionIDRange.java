@@ -3,8 +3,8 @@ package io.openmg.kuaz.graphdb.database.idassigner.placement;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import io.openmg.kuaz.diskstorage.StaticBuffer;
-import io.openmg.kuaz.diskstorage.keycolumnvalue.KeyRange;
+import io.openmg.kuaz.storage.StaticBuffer;
+import io.openmg.kuaz.storage.keycolumnvalue.KeyRange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

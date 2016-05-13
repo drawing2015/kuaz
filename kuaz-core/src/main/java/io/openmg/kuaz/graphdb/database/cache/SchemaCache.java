@@ -1,6 +1,6 @@
 package io.openmg.kuaz.graphdb.database.cache;
 
-import io.openmg.kuaz.diskstorage.EntryList;
+import io.openmg.kuaz.storage.EntryList;
 import io.openmg.kuaz.graphdb.types.system.BaseRelationType;
 import org.apache.tinkerpop.gremlin.structure.Direction;
 

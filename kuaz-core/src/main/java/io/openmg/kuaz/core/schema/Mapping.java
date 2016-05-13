@@ -1,7 +1,7 @@
 package io.openmg.kuaz.core.schema;
 
 import com.google.common.base.Preconditions;
-import io.openmg.kuaz.diskstorage.indexing.KeyInformation;
+import io.openmg.kuaz.storage.indexing.KeyInformation;
 import io.openmg.kuaz.graphdb.types.ParameterType;
 
 /**

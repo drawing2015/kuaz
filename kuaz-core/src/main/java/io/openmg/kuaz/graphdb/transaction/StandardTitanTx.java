@@ -12,12 +12,12 @@ import io.openmg.kuaz.core.*;
 import io.openmg.kuaz.core.attribute.Cmp;
 import io.openmg.kuaz.core.schema.*;
 import io.openmg.kuaz.core.schema.SchemaInspector;
-import io.openmg.kuaz.diskstorage.BackendException;
+import io.openmg.kuaz.storage.BackendException;
 
-import io.openmg.kuaz.diskstorage.util.time.TimestampProvider;
-import io.openmg.kuaz.diskstorage.BackendTransaction;
-import io.openmg.kuaz.diskstorage.EntryList;
-import io.openmg.kuaz.diskstorage.keycolumnvalue.SliceQuery;
+import io.openmg.kuaz.storage.util.time.TimestampProvider;
+import io.openmg.kuaz.storage.BackendTransaction;
+import io.openmg.kuaz.storage.EntryList;
+import io.openmg.kuaz.storage.keycolumnvalue.SliceQuery;
 import io.openmg.kuaz.graphdb.query.profile.QueryProfiler;
 import io.openmg.kuaz.graphdb.relations.RelationComparator;
 import io.openmg.kuaz.graphdb.tinkerpop.TitanBlueprintsTransaction;

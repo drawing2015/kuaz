@@ -1,6 +1,6 @@
 package io.openmg.kuaz.graphdb.transaction;
 
-import io.openmg.kuaz.diskstorage.util.RecordIterator;
+import io.openmg.kuaz.storage.util.RecordIterator;
 import io.openmg.kuaz.graphdb.database.StandardTitanGraph;
 import io.openmg.kuaz.graphdb.idmanagement.IDManager;
 import io.openmg.kuaz.graphdb.internal.InternalVertex;

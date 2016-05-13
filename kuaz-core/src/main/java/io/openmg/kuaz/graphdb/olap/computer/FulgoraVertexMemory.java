@@ -1,19 +1,14 @@
 package io.openmg.kuaz.graphdb.olap.computer;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
-import io.openmg.kuaz.core.TitanVertexProperty;
-import io.openmg.kuaz.diskstorage.EntryList;
+import io.openmg.kuaz.storage.EntryList;
 import io.openmg.kuaz.graphdb.idmanagement.IDManager;
-import io.openmg.kuaz.graphdb.vertices.PreloadedVertex;
 import org.apache.tinkerpop.gremlin.process.computer.MessageCombiner;
 import org.apache.tinkerpop.gremlin.process.computer.MessageScope;
-import org.apache.tinkerpop.gremlin.process.computer.Messenger;
 import org.apache.tinkerpop.gremlin.process.computer.VertexProgram;
-import org.apache.tinkerpop.gremlin.structure.VertexProperty;
 import org.cliffc.high_scale_lib.NonBlockingHashMapLong;
 
 import java.util.*;

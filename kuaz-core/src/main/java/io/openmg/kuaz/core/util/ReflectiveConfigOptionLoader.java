@@ -9,8 +9,8 @@ import java.util.*;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
-import io.openmg.kuaz.diskstorage.util.time.Timer;
-import io.openmg.kuaz.diskstorage.util.time.TimestampProviders;
+import io.openmg.kuaz.storage.util.time.Timer;
+import io.openmg.kuaz.storage.util.time.TimestampProviders;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Preconditions;
-import io.openmg.kuaz.diskstorage.configuration.ConfigOption;
+import io.openmg.kuaz.storage.configuration.ConfigOption;
 import io.openmg.kuaz.graphdb.configuration.PreInitializeConfigOptions;
 
 /**
@@ -103,20 +103,20 @@ public enum ReflectiveConfigOptionLoader {
          * but the benefit isn't substantial.
          */
         List<String> classnames = ImmutableList.of(
-            "io.openmg.kuaz.diskstorage.hbase.HBaseStoreManager",
-            "io.openmg.kuaz.diskstorage.cassandra.astyanax.AstyanaxStoreManager",
-            "io.openmg.kuaz.diskstorage.cassandra.AbstractCassandraStoreManager",
-            "io.openmg.kuaz.diskstorage.cassandra.thrift.CassandraThriftStoreManager",
-            "io.openmg.kuaz.diskstorage.es.ElasticSearchIndex",
-            "io.openmg.kuaz.diskstorage.solr.SolrIndex",
-            "io.openmg.kuaz.diskstorage.log.kcvs.KCVSLog",
-            "io.openmg.kuaz.diskstorage.log.kcvs.KCVSLogManager",
-            "io.openmg.kuaz.graphdb.configuration.GraphDatabaseConfiguration",
-            "io.openmg.kuaz.graphdb.database.idassigner.placement.SimpleBulkPlacementStrategy",
-            "io.openmg.kuaz.graphdb.database.idassigner.VertexIDAssigner",
-            //"io.openmg.kuaz.graphdb.TestMockIndexProvider",
-            //"io.openmg.kuaz.graphdb.TestMockLog",
-            "io.openmg.kuaz.diskstorage.berkeleyje.BerkeleyJEStoreManager");
+            "io.openmg.io.openmg.kuaz.storage.ignite.storage.hbase.HBaseStoreManager",
+            "io.openmg.io.openmg.kuaz.storage.ignite.storage.cassandra.astyanax.AstyanaxStoreManager",
+            "io.openmg.io.openmg.kuaz.storage.ignite.storage.cassandra.AbstractCassandraStoreManager",
+            "io.openmg.io.openmg.kuaz.storage.ignite.storage.cassandra.thrift.CassandraThriftStoreManager",
+            "io.openmg.io.openmg.kuaz.storage.ignite.storage.es.ElasticSearchIndex",
+            "io.openmg.io.openmg.kuaz.storage.ignite.storage.solr.SolrIndex",
+            "io.openmg.io.openmg.kuaz.storage.ignite.storage.log.kcvs.KCVSLog",
+            "io.openmg.io.openmg.kuaz.storage.ignite.storage.log.kcvs.KCVSLogManager",
+            "io.openmg.io.openmg.kuaz.storage.ignite.graphdb.configuration.GraphDatabaseConfiguration",
+            "io.openmg.io.openmg.kuaz.storage.ignite.graphdb.database.idassigner.placement.SimpleBulkPlacementStrategy",
+            "io.openmg.io.openmg.kuaz.storage.ignite.graphdb.database.idassigner.VertexIDAssigner",
+            //"io.openmg.io.openmg.kuaz.storage.ignite.graphdb.TestMockIndexProvider",
+            //"io.openmg.io.openmg.kuaz.storage.ignite.graphdb.TestMockLog",
+            "io.openmg.io.openmg.kuaz.storage.ignite.storage.berkeleyje.BerkeleyJEStoreManager");
 
         Timer t = new Timer(TimestampProviders.MILLI);
         t.start();

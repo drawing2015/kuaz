@@ -2,13 +2,12 @@ package io.openmg.kuaz.graphdb.query.vertex;
 
 import com.google.common.base.Preconditions;
 import io.openmg.kuaz.core.*;
-import io.openmg.kuaz.diskstorage.keycolumnvalue.SliceQuery;
+import io.openmg.kuaz.storage.keycolumnvalue.SliceQuery;
 import io.openmg.kuaz.graphdb.internal.InternalVertex;
 import io.openmg.kuaz.graphdb.internal.RelationCategory;
 import io.openmg.kuaz.graphdb.query.BackendQueryHolder;
 import io.openmg.kuaz.graphdb.query.QueryProcessor;
 import io.openmg.kuaz.graphdb.query.profile.QueryProfiler;
-import io.openmg.kuaz.graphdb.vertices.PreloadedVertex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

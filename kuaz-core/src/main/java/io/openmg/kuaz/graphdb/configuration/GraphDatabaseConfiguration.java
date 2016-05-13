@@ -6,25 +6,25 @@ import com.google.common.collect.Sets;
 import io.openmg.kuaz.core.*;
 import io.openmg.kuaz.core.attribute.AttributeSerializer;
 import io.openmg.kuaz.core.schema.DefaultSchemaMaker;
-import io.openmg.kuaz.diskstorage.configuration.Configuration;
-import io.openmg.kuaz.diskstorage.StandardIndexProvider;
-import io.openmg.kuaz.diskstorage.StandardStoreManager;
-import io.openmg.kuaz.diskstorage.keycolumnvalue.ttl.TTLKCVSManager;
+import io.openmg.kuaz.storage.configuration.Configuration;
+import io.openmg.kuaz.storage.StandardIndexProvider;
+import io.openmg.kuaz.storage.StandardStoreManager;
+import io.openmg.kuaz.storage.keycolumnvalue.ttl.TTLKCVSManager;
 import io.openmg.kuaz.graphdb.tinkerpop.TitanDefaultSchemaMaker;
 import io.openmg.kuaz.graphdb.tinkerpop.Tp3DefaultSchemaMaker;
 import io.openmg.kuaz.graphdb.database.management.ManagementSystem;
 import io.openmg.kuaz.graphdb.types.typemaker.DisableDefaultSchemaMaker;
 import io.openmg.kuaz.util.stats.NumberUtil;
-import io.openmg.kuaz.diskstorage.util.time.*;
-import io.openmg.kuaz.diskstorage.configuration.*;
-import io.openmg.kuaz.diskstorage.configuration.backend.CommonsConfiguration;
-import io.openmg.kuaz.diskstorage.configuration.backend.KCVSConfiguration;
-import io.openmg.kuaz.diskstorage.idmanagement.ConflictAvoidanceMode;
-import io.openmg.kuaz.diskstorage.idmanagement.ConsistentKeyIDAuthority;
-import io.openmg.kuaz.diskstorage.keycolumnvalue.KeyColumnValueStoreManager;
-import io.openmg.kuaz.diskstorage.keycolumnvalue.StoreFeatures;
-import io.openmg.kuaz.diskstorage.log.kcvs.KCVSLog;
-import io.openmg.kuaz.diskstorage.log.kcvs.KCVSLogManager;
+import io.openmg.kuaz.storage.util.time.*;
+import io.openmg.kuaz.storage.configuration.*;
+import io.openmg.kuaz.storage.configuration.backend.CommonsConfiguration;
+import io.openmg.kuaz.storage.configuration.backend.KCVSConfiguration;
+import io.openmg.kuaz.storage.idmanagement.ConflictAvoidanceMode;
+import io.openmg.kuaz.storage.idmanagement.ConsistentKeyIDAuthority;
+import io.openmg.kuaz.storage.keycolumnvalue.KeyColumnValueStoreManager;
+import io.openmg.kuaz.storage.keycolumnvalue.StoreFeatures;
+import io.openmg.kuaz.storage.log.kcvs.KCVSLog;
+import io.openmg.kuaz.storage.log.kcvs.KCVSLogManager;
 import io.openmg.kuaz.graphdb.database.cache.MetricInstrumentedSchemaCache;
 import io.openmg.kuaz.graphdb.database.cache.StandardSchemaCache;
 import io.openmg.kuaz.graphdb.database.cache.SchemaCache;
@@ -58,7 +58,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
-import io.openmg.kuaz.diskstorage.Backend;
+import io.openmg.kuaz.storage.Backend;
 import io.openmg.kuaz.graphdb.database.idassigner.VertexIDAssigner;
 import io.openmg.kuaz.graphdb.database.serialize.Serializer;
 import io.openmg.kuaz.graphdb.transaction.StandardTransactionBuilder;
@@ -611,7 +611,7 @@ public class GraphDatabaseConfiguration {
             ConfigOption.Type.MASKABLE, false);
 
     /**
-     * Locker type to use.  The supported types are in {@link io.openmg.kuaz.diskstorage.Backend}.
+     * Locker type to use.  The supported types are in {@link io.openmg.kuaz.storage.Backend}.
      */
     public static final ConfigOption<String> LOCK_BACKEND = new ConfigOption<String>(LOCK_NS, "backend",
             "Locker type to use",
@@ -762,7 +762,7 @@ public class GraphDatabaseConfiguration {
             ConfigOption.Type.GLOBAL_OFFLINE, ConflictAvoidanceMode.class, ConflictAvoidanceMode.NONE);
 
     /**
-     * When Titan allocates IDs with {@link io.openmg.kuaz.diskstorage.idmanagement.ConflictAvoidanceMode#GLOBAL_AUTO}
+     * When Titan allocates IDs with {@link io.openmg.kuaz.storage.idmanagement.ConflictAvoidanceMode#GLOBAL_AUTO}
      * configured, it picks a random unique ID marker and attempts to allocate IDs
      * from a partition using the marker. The ID markers function as
      * subpartitions with each ID partition. If the attempt fails because that
@@ -773,7 +773,7 @@ public class GraphDatabaseConfiguration {
      * should generally be set to 3 or more.
      * <p/>
      * This setting has no effect when {@link #IDAUTHORITY_CONFLICT_AVOIDANCE} is not configured to
-     * {@link io.openmg.kuaz.diskstorage.idmanagement.ConflictAvoidanceMode#GLOBAL_AUTO}.
+     * {@link io.openmg.kuaz.storage.idmanagement.ConflictAvoidanceMode#GLOBAL_AUTO}.
      */
     public static final ConfigOption<Integer> IDAUTHORITY_CAV_RETRIES = new ConfigOption<Integer>(IDAUTHORITY_NS,"randomized-conflict-avoidance-retries",
             "Number of times the system attempts ID block reservations with random conflict avoidance tags before giving up and throwing an exception",
@@ -790,7 +790,7 @@ public class GraphDatabaseConfiguration {
      * same value. Otherwise, data corruption will occur.
      *
      * This setting has no effect when {@link #IDAUTHORITY_CONFLICT_AVOIDANCE} is configured to
-     * {@link io.openmg.kuaz.diskstorage.idmanagement.ConflictAvoidanceMode#NONE}. However, note that while the
+     * {@link io.openmg.kuaz.storage.idmanagement.ConflictAvoidanceMode#NONE}. However, note that while the
      * conflict avoidance mode can be changed, this setting cannot ever be changed and must therefore be considered a priori.
      */
     public static final ConfigOption<Integer> IDAUTHORITY_CAV_BITS = new ConfigOption<Integer>(IDAUTHORITY_NS,"conflict-avoidance-tag-bits",
@@ -811,7 +811,7 @@ public class GraphDatabaseConfiguration {
      * IMPORTANT: The configured unique id marker must fit within the configured unique id bit width.
      *
      * This setting has no effect when {@link #IDAUTHORITY_CONFLICT_AVOIDANCE} is configured to
-     * {@link io.openmg.kuaz.diskstorage.idmanagement.ConflictAvoidanceMode#NONE}.
+     * {@link io.openmg.kuaz.storage.idmanagement.ConflictAvoidanceMode#NONE}.
      */
     public static final ConfigOption<Integer> IDAUTHORITY_CAV_TAG = new ConfigOption<Integer>(IDAUTHORITY_NS,"conflict-avoidance-tag",
             "Conflict avoidance tag to be used by this Titan instance when allocating IDs",
@@ -971,7 +971,7 @@ public class GraphDatabaseConfiguration {
      * some kind of configuration object is in scope everywhere it is used, and
      * it could theoretically be stored in and read from that object.
      */
-    public static final String METRICS_PREFIX_DEFAULT = "io.openmg.kuaz";
+    public static final String METRICS_PREFIX_DEFAULT = "io.openmg.io.openmg.kuaz.storage.ignite";
     public static final String METRICS_SYSTEM_PREFIX_DEFAULT = METRICS_PREFIX_DEFAULT + "." + "sys";
     public static final String METRICS_SCHEMA_PREFIX_DEFAULT = METRICS_SYSTEM_PREFIX_DEFAULT + "." + "schema";
 
@@ -1281,7 +1281,7 @@ public class GraphDatabaseConfiguration {
             "Gremlin configuration options");
 
     public static final ConfigOption<String> GREMLIN_GRAPH = new ConfigOption<String>(GREMLIN_NS, "graph",
-            "The implementation of graph factory that will be used by gremlin server", ConfigOption.Type.LOCAL, "io.openmg.kuaz.core.TitanFactory");
+            "The implementation of graph factory that will be used by gremlin server", ConfigOption.Type.LOCAL, "io.openmg.io.openmg.kuaz.storage.ignite.core.TitanFactory");
 
     // ################ Begin Class Definition #######################
     // ###############################################################

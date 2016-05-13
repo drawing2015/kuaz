@@ -1,10 +1,7 @@
 package io.openmg.kuaz.graphdb.database.serialize.attribute;
 
-import com.google.common.base.Preconditions;
-import io.openmg.kuaz.core.attribute.AttributeSerializer;
-import io.openmg.kuaz.diskstorage.ScanBuffer;
-import io.openmg.kuaz.diskstorage.WriteBuffer;
-import io.openmg.kuaz.graphdb.database.serialize.AttributeUtil;
+import io.openmg.kuaz.storage.ScanBuffer;
+import io.openmg.kuaz.storage.WriteBuffer;
 import io.openmg.kuaz.graphdb.database.serialize.OrderPreservingSerializer;
 import io.openmg.kuaz.util.encoding.NumericUtils;
 

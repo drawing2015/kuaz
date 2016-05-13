@@ -6,7 +6,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import io.openmg.kuaz.core.*;
 import io.openmg.kuaz.core.attribute.Cmp;
-import io.openmg.kuaz.diskstorage.keycolumnvalue.SliceQuery;
+import io.openmg.kuaz.storage.keycolumnvalue.SliceQuery;
 import io.openmg.kuaz.graphdb.database.EdgeSerializer;
 import io.openmg.kuaz.graphdb.internal.*;
 import io.openmg.kuaz.graphdb.query.*;

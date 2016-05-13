@@ -2,7 +2,7 @@ package io.openmg.kuaz.graphdb.query.vertex;
 
 import com.google.common.base.Preconditions;
 import io.openmg.kuaz.core.TitanRelation;
-import io.openmg.kuaz.diskstorage.keycolumnvalue.SliceQuery;
+import io.openmg.kuaz.storage.keycolumnvalue.SliceQuery;
 import io.openmg.kuaz.graphdb.internal.OrderList;
 import io.openmg.kuaz.graphdb.query.BackendQueryHolder;
 import io.openmg.kuaz.graphdb.query.BaseQuery;

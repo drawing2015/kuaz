@@ -1,6 +1,6 @@
 package io.openmg.kuaz.graphdb.database.serialize;
 
-import io.openmg.kuaz.diskstorage.ScanBuffer;
+import io.openmg.kuaz.storage.ScanBuffer;
 
 import java.io.Closeable;
 

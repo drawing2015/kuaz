@@ -9,22 +9,20 @@ import io.openmg.kuaz.core.*;
 import io.openmg.kuaz.core.schema.ConsistencyModifier;
 import io.openmg.kuaz.core.schema.SchemaStatus;
 import io.openmg.kuaz.core.schema.TitanManagement;
-import io.openmg.kuaz.diskstorage.*;
-import io.openmg.kuaz.diskstorage.configuration.BasicConfiguration;
-import io.openmg.kuaz.diskstorage.configuration.Configuration;
-import io.openmg.kuaz.diskstorage.configuration.ModifiableConfiguration;
-import io.openmg.kuaz.diskstorage.configuration.backend.CommonsConfiguration;
-import io.openmg.kuaz.diskstorage.indexing.IndexEntry;
-import io.openmg.kuaz.diskstorage.indexing.IndexTransaction;
-import io.openmg.kuaz.diskstorage.keycolumnvalue.*;
-import io.openmg.kuaz.diskstorage.keycolumnvalue.cache.KCVSCache;
-import io.openmg.kuaz.diskstorage.log.Log;
-import io.openmg.kuaz.diskstorage.log.Message;
-import io.openmg.kuaz.diskstorage.log.ReadMarker;
-import io.openmg.kuaz.diskstorage.log.kcvs.KCVSLog;
-import io.openmg.kuaz.diskstorage.util.RecordIterator;
-import io.openmg.kuaz.diskstorage.util.StaticArrayEntry;
-import io.openmg.kuaz.diskstorage.util.time.TimestampProvider;
+import io.openmg.kuaz.storage.*;
+import io.openmg.kuaz.storage.configuration.Configuration;
+import io.openmg.kuaz.storage.configuration.ModifiableConfiguration;
+import io.openmg.kuaz.storage.indexing.IndexEntry;
+import io.openmg.kuaz.storage.indexing.IndexTransaction;
+import io.openmg.kuaz.storage.keycolumnvalue.*;
+import io.openmg.kuaz.storage.keycolumnvalue.cache.KCVSCache;
+import io.openmg.kuaz.storage.log.Log;
+import io.openmg.kuaz.storage.log.Message;
+import io.openmg.kuaz.storage.log.ReadMarker;
+import io.openmg.kuaz.storage.log.kcvs.KCVSLog;
+import io.openmg.kuaz.storage.util.RecordIterator;
+import io.openmg.kuaz.storage.util.StaticArrayEntry;
+import io.openmg.kuaz.storage.util.time.TimestampProvider;
 import io.openmg.kuaz.graphdb.configuration.GraphDatabaseConfiguration;
 import io.openmg.kuaz.graphdb.database.cache.SchemaCache;
 import io.openmg.kuaz.graphdb.database.idassigner.VertexIDAssigner;
@@ -73,7 +71,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static io.openmg.kuaz.graphdb.configuration.GraphDatabaseConfiguration.REGISTRATION_TIME;
-import static io.openmg.kuaz.graphdb.configuration.GraphDatabaseConfiguration.ROOT_NS;
 
 public class StandardTitanGraph extends TitanBlueprintsGraph {
 

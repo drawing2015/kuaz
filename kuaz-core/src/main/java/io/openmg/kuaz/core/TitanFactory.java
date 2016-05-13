@@ -6,10 +6,10 @@ import com.google.common.collect.Iterators;
 
 import io.openmg.kuaz.core.log.LogProcessorFramework;
 import io.openmg.kuaz.core.log.TransactionRecovery;
-import io.openmg.kuaz.diskstorage.Backend;
-import io.openmg.kuaz.diskstorage.StandardStoreManager;
-import io.openmg.kuaz.diskstorage.configuration.*;
-import io.openmg.kuaz.diskstorage.configuration.backend.CommonsConfiguration;
+import io.openmg.kuaz.storage.Backend;
+import io.openmg.kuaz.storage.StandardStoreManager;
+import io.openmg.kuaz.storage.configuration.*;
+import io.openmg.kuaz.storage.configuration.backend.CommonsConfiguration;
 import io.openmg.kuaz.graphdb.configuration.GraphDatabaseConfiguration;
 
 import static io.openmg.kuaz.graphdb.configuration.GraphDatabaseConfiguration.*;
@@ -29,7 +29,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.time.Instant;
 import java.util.Iterator;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 /**

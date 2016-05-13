@@ -37,6 +37,7 @@
         <kuaz.compatible.versions />
         <tinkerpop.version>3.2.0-incubating</tinkerpop.version>
         <cassandra.version>2.1.9</cassandra.version>
+        <ignite.version>1.5.0.final</ignite.version>
         <junit.version>4.12</junit.version>
         <mrunit.version>1.1.0</mrunit.version>
         <cassandra.version>2.1.9</cassandra.version>
@@ -721,7 +722,7 @@
             <dependency>
                 <!-- Run the full test suite when changing the Guava version.
                      The Guava team is deadly serious about their 18 month period from deprecation
-                     to feature deletion, and as a result, at least one of kuaz's dependencies is
+                     to feature deletion, and as a result, at least one of io.openmg.kuaz.storage.ignite's dependencies is
                      likely to break whenever the Guava version changes.
 
                      Example where blithely upgrading Guava introduced a linkage error in the past:

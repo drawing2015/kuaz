@@ -4,7 +4,7 @@ import com.carrotsearch.hppc.cursors.LongObjectCursor;
 import io.openmg.kuaz.core.EdgeLabel;
 import io.openmg.kuaz.core.PropertyKey;
 import io.openmg.kuaz.core.log.Change;
-import io.openmg.kuaz.diskstorage.Entry;
+import io.openmg.kuaz.storage.Entry;
 import io.openmg.kuaz.graphdb.database.log.TransactionLogHeader;
 import io.openmg.kuaz.graphdb.internal.ElementLifeCycle;
 import io.openmg.kuaz.graphdb.internal.InternalRelation;

@@ -3,7 +3,7 @@ package io.openmg.kuaz.graphdb.database.cache;
 import com.google.common.base.Preconditions;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import io.openmg.kuaz.diskstorage.EntryList;
+import io.openmg.kuaz.storage.EntryList;
 import io.openmg.kuaz.graphdb.idmanagement.IDManager;
 import io.openmg.kuaz.graphdb.relations.EdgeDirection;
 import io.openmg.kuaz.graphdb.types.system.BaseKey;

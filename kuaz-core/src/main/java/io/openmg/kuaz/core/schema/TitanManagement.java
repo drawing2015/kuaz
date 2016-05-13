@@ -5,7 +5,7 @@ import io.openmg.kuaz.core.PropertyKey;
 import io.openmg.kuaz.core.RelationType;
 import io.openmg.kuaz.core.TitanTransaction;
 import io.openmg.kuaz.core.VertexLabel;
-import io.openmg.kuaz.diskstorage.keycolumnvalue.scan.ScanMetrics;
+import io.openmg.kuaz.storage.keycolumnvalue.scan.ScanMetrics;
 import org.apache.tinkerpop.gremlin.process.traversal.Order;
 import org.apache.tinkerpop.gremlin.structure.Direction;
 import org.apache.tinkerpop.gremlin.structure.Element;

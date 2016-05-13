@@ -5,7 +5,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 import io.openmg.kuaz.core.RelationType;
 import io.openmg.kuaz.core.TitanTransaction;
-import io.openmg.kuaz.diskstorage.keycolumnvalue.SliceQuery;
+import io.openmg.kuaz.storage.keycolumnvalue.SliceQuery;
 import io.openmg.kuaz.graphdb.internal.RelationCategory;
 import io.openmg.kuaz.graphdb.query.BackendQueryHolder;
 import io.openmg.kuaz.graphdb.query.TitanPredicate;

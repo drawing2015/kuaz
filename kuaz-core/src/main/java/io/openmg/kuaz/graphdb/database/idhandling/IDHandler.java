@@ -1,11 +1,11 @@
 package io.openmg.kuaz.graphdb.database.idhandling;
 
-import io.openmg.kuaz.diskstorage.ReadBuffer;
-import io.openmg.kuaz.diskstorage.StaticBuffer;
-import io.openmg.kuaz.diskstorage.WriteBuffer;
-import io.openmg.kuaz.diskstorage.util.BufferUtil;
-import io.openmg.kuaz.diskstorage.util.StaticArrayBuffer;
-import io.openmg.kuaz.diskstorage.util.WriteByteBuffer;
+import io.openmg.kuaz.storage.ReadBuffer;
+import io.openmg.kuaz.storage.StaticBuffer;
+import io.openmg.kuaz.storage.WriteBuffer;
+import io.openmg.kuaz.storage.util.BufferUtil;
+import io.openmg.kuaz.storage.util.StaticArrayBuffer;
+import io.openmg.kuaz.storage.util.WriteByteBuffer;
 import io.openmg.kuaz.graphdb.idmanagement.IDManager;
 import io.openmg.kuaz.graphdb.internal.RelationCategory;
 import org.apache.tinkerpop.gremlin.structure.Direction;

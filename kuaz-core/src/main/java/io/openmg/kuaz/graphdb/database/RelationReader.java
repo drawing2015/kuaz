@@ -1,6 +1,6 @@
 package io.openmg.kuaz.graphdb.database;
 
-import io.openmg.kuaz.diskstorage.Entry;
+import io.openmg.kuaz.storage.Entry;
 import io.openmg.kuaz.graphdb.relations.RelationCache;
 import io.openmg.kuaz.graphdb.types.TypeInspector;
 

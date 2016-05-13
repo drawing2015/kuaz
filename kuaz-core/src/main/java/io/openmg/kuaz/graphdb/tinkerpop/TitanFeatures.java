@@ -1,8 +1,6 @@
 package io.openmg.kuaz.graphdb.tinkerpop;
 
-import io.openmg.kuaz.core.TitanTransaction;
-import io.openmg.kuaz.diskstorage.keycolumnvalue.StoreFeatures;
-import io.openmg.kuaz.graphdb.configuration.GraphDatabaseConfiguration;
+import io.openmg.kuaz.storage.keycolumnvalue.StoreFeatures;
 import io.openmg.kuaz.graphdb.database.StandardTitanGraph;
 import io.openmg.kuaz.graphdb.transaction.StandardTitanTx;
 import org.apache.tinkerpop.gremlin.structure.Graph;

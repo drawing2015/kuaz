@@ -7,7 +7,7 @@ import io.openmg.kuaz.core.Cardinality;
 
 import io.openmg.kuaz.core.schema.ConsistencyModifier;
 import io.openmg.kuaz.core.Multiplicity;
-import io.openmg.kuaz.diskstorage.EntryMetaData;
+import io.openmg.kuaz.storage.EntryMetaData;
 
 import io.openmg.kuaz.graphdb.internal.*;
 import org.apache.tinkerpop.gremlin.structure.T;
@@ -16,9 +16,7 @@ import org.apache.commons.lang.StringUtils;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.temporal.TemporalUnit;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Matthias Broecheler (me@matthiasb.com)
