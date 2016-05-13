@@ -84,6 +84,8 @@
     </properties>
     <modules>
         <module>kuaz-core</module>
+        <module>kuaz-es</module>
+        <module>kuaz-ignite</module>
     </modules>
     <repositories>
         <repository>
@@ -722,7 +724,7 @@
             <dependency>
                 <!-- Run the full test suite when changing the Guava version.
                      The Guava team is deadly serious about their 18 month period from deprecation
-                     to feature deletion, and as a result, at least one of io.openmg.kuaz.storage.ignite's dependencies is
+                     to feature deletion, and as a result, at least one of io.openmg.kuaz.diskstorage.ignite's dependencies is
                      likely to break whenever the Guava version changes.
 
                      Example where blithely upgrading Guava introduced a linkage error in the past:
