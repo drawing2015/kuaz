@@ -1,4 +1,4 @@
-package io.openmg.kuaz.storage.ignite;
+package io.openmg.kuaz.structure.io.ignite;
 
 import java.util.*;
 

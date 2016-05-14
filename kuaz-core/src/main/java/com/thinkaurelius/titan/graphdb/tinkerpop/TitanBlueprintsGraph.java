@@ -140,7 +140,7 @@ public abstract class TitanBlueprintsGraph implements TitanGraph {
     }
 
     @Override
-    public FulgoraGraphComputer compute() throws IllegalArgumentException {
+    public GraphComputer compute() throws IllegalArgumentException {
         StandardTitanGraph graph = (StandardTitanGraph)this;
         return new FulgoraGraphComputer(graph,graph.getConfiguration().getConfiguration());
     }

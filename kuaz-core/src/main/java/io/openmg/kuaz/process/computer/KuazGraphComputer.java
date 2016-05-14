@@ -18,7 +18,7 @@ import java.util.concurrent.Future;
 /**
  * Created by zizai (http://github.com/zizai).
  */
-public final class KuazGraphComputer implements GraphComputer {
+public class KuazGraphComputer implements GraphComputer {
 
     private ResultGraph resultGraph = null;
     private Persist persist = null;
