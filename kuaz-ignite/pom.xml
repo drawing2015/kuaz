@@ -21,14 +21,11 @@
             <groupId>io.openmg.kuaz</groupId>
             <artifactId>kuaz-core</artifactId>
             <version>${project.version}</version>
-            <classifier>tests</classifier>
         </dependency>
         <dependency>
             <groupId>io.openmg.kuaz</groupId>
             <artifactId>kuaz-es</artifactId>
             <version>${project.version}</version>
-            <classifier>tests</classifier>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.ignite</groupId>
