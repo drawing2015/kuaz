@@ -11,19 +11,30 @@ import com.thinkaurelius.titan.diskstorage.keycolumnvalue.KeyRange;
 import com.thinkaurelius.titan.diskstorage.keycolumnvalue.StoreFeatures;
 import com.thinkaurelius.titan.diskstorage.keycolumnvalue.StoreTransaction;
 
+import org.apache.ignite.cache.CacheMode;
 import org.apache.ignite.configuration.CacheConfiguration;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by zizai (http://github.com/zizai).
  */
 public class IgniteStoreManager extends AbstractIgniteStoreManager {
 
+    protected final int backups;
+    protected final CacheMode mode;
+
+    protected final Map<String, IgniteStore> openStores;
+
     public IgniteStoreManager(Configuration storageConfig, int portDefault) {
         super(storageConfig, portDefault);
+        backups = storageConfig.get(CACHE_BACKUPS);
+        mode = storageConfig.get(CACHE_MODE);
+
+        openStores = new ConcurrentHashMap<>();
     }
 
     @Override
@@ -36,7 +47,7 @@ public class IgniteStoreManager extends AbstractIgniteStoreManager {
         if (openStores.containsKey(getCacheName(name))) {
             return openStores.get(name);
         }
-        IgniteStore store = new IgniteStore(ignite.getOrCreateCache(buildCacheConfiguration(name)));
+        IgniteStore store = new IgniteStore(ignite.getOrCreateCache(buildCacheConfiguration(getCacheName(name))));
         openStores.put(getCacheName(name), store);
         return null;
     }

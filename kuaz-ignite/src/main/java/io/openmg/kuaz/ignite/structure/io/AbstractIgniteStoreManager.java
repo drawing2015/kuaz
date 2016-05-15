@@ -17,8 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by zizai (http://github.com/zizai).
@@ -75,11 +73,6 @@ public abstract class AbstractIgniteStoreManager extends DistributedStoreManager
     private final long metricsLogLrequency;
     private final boolean peerClassLoading;
 
-    protected final int backups;
-    protected final CacheMode mode;
-
-    protected final Map<String, IgniteStore> openStores;
-
     protected final Ignite ignite;
 
     public AbstractIgniteStoreManager(Configuration storageConfig, int portDefault) {
@@ -89,11 +82,6 @@ public abstract class AbstractIgniteStoreManager extends DistributedStoreManager
         reconnectCount = storageConfig.get(RECONNECT_COUNT);
         metricsLogLrequency = storageConfig.get(METRICS_LOG_FREQUENCY);
         peerClassLoading = storageConfig.get(PEER_CLASS_LOADING);
-
-        backups = storageConfig.get(CACHE_BACKUPS);
-        mode = storageConfig.get(CACHE_MODE);
-
-        openStores = new ConcurrentHashMap<>();
 
         TcpDiscoveryVmIpFinder ipFinder = new TcpDiscoveryVmIpFinder();
         ipFinder.setAddresses(Arrays.asList(hostnames));
