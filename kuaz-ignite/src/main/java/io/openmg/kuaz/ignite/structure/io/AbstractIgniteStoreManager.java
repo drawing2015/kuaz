@@ -9,6 +9,7 @@ import com.thinkaurelius.titan.graphdb.configuration.GraphDatabaseConfiguration;
 
 import org.apache.ignite.Ignite;
 import org.apache.ignite.Ignition;
+import org.apache.ignite.cache.CacheMode;
 import org.apache.ignite.configuration.IgniteConfiguration;
 import org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi;
 import org.apache.ignite.spi.discovery.tcp.ipfinder.vm.TcpDiscoveryVmIpFinder;
@@ -26,8 +27,8 @@ public abstract class AbstractIgniteStoreManager extends DistributedStoreManager
 
     private static final Logger log = LoggerFactory.getLogger(AbstractIgniteStoreManager.class);
 
-    public static final ConfigNamespace IGNITE_NS =
-        new ConfigNamespace(GraphDatabaseConfiguration.STORAGE_NS, "ignite", "Ignite storage backend options");
+    public static final ConfigNamespace IGNITE_NS = new ConfigNamespace(GraphDatabaseConfiguration.STORAGE_NS,
+                                                                        "ignite", "Ignite storage backend options");
 
     public static final ConfigOption<String> IGNITE_GROUP =
         new ConfigOption<>(IGNITE_NS, "group",
@@ -54,16 +55,32 @@ public abstract class AbstractIgniteStoreManager extends DistributedStoreManager
                            "Enable Ignite peer class loading",
                            ConfigOption.Type.LOCAL, false);
 
+    public static final ConfigNamespace IGNITE_CACHE_NS = new ConfigNamespace(IGNITE_NS, "cache", "Ignite cache options");
 
-    private final String group;
+    public static final ConfigOption<CacheMode> CACHE_MODE =
+        new ConfigOption<>(IGNITE_CACHE_NS, "mode",
+                           "Ignite cache mode",
+                           ConfigOption.Type.GLOBAL_OFFLINE, CacheMode.PARTITIONED);
+
+    public static final ConfigOption<Integer> CACHE_BACKUPS =
+        new ConfigOption<>(IGNITE_CACHE_NS, "backups",
+                           "Ignite cache backups",
+                           ConfigOption.Type.GLOBAL_OFFLINE, 1);
+
+
+    protected final String group;
+
     private final String gridName;
     private final int reconnectCount;
     private final long metricsLogLrequency;
     private final boolean peerClassLoading;
 
-    private final Map<String, IgniteStore> openStores;
+    protected final int backups;
+    protected final CacheMode mode;
 
-    private final Ignite ignite;
+    protected final Map<String, IgniteStore> openStores;
+
+    protected final Ignite ignite;
 
     public AbstractIgniteStoreManager(Configuration storageConfig, int portDefault) {
         super(storageConfig, portDefault);
@@ -73,8 +90,10 @@ public abstract class AbstractIgniteStoreManager extends DistributedStoreManager
         metricsLogLrequency = storageConfig.get(METRICS_LOG_FREQUENCY);
         peerClassLoading = storageConfig.get(PEER_CLASS_LOADING);
 
-        openStores = new ConcurrentHashMap<>();
+        backups = storageConfig.get(CACHE_BACKUPS);
+        mode = storageConfig.get(CACHE_MODE);
 
+        openStores = new ConcurrentHashMap<>();
 
         TcpDiscoveryVmIpFinder ipFinder = new TcpDiscoveryVmIpFinder();
         ipFinder.setAddresses(Arrays.asList(hostnames));
@@ -89,9 +108,8 @@ public abstract class AbstractIgniteStoreManager extends DistributedStoreManager
                            .setClientMode(true)
                            .setPeerClassLoadingEnabled(peerClassLoading)
                            .setDiscoverySpi(tcpDiscoverySpi);
+
         ignite = Ignition.start(igniteConfiguration);
     }
-
-    // 初始化和设置后端参数，参考 AbstractCassandraStoreManager
 
 }

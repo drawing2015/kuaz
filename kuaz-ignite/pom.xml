@@ -50,10 +50,8 @@
         <plugins>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <configuration self.combine="override">
+                <configuration>
                     <forkMode>always</forkMode>
-                    <reuseForks>true</reuseForks>
-                    <parallel />
                     <threadCount>1</threadCount>
                     <perCoreThreadCount>false</perCoreThreadCount>
                 </configuration>

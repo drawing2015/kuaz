@@ -11,6 +11,9 @@ import com.thinkaurelius.titan.diskstorage.keycolumnvalue.KeyRange;
 import com.thinkaurelius.titan.diskstorage.keycolumnvalue.StoreFeatures;
 import com.thinkaurelius.titan.diskstorage.keycolumnvalue.StoreTransaction;
 
+import org.apache.ignite.configuration.CacheConfiguration;
+
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +21,6 @@ import java.util.Map;
  * Created by zizai (http://github.com/zizai).
  */
 public class IgniteStoreManager extends AbstractIgniteStoreManager {
-
 
     public IgniteStoreManager(Configuration storageConfig, int portDefault) {
         super(storageConfig, portDefault);
@@ -31,6 +33,11 @@ public class IgniteStoreManager extends AbstractIgniteStoreManager {
 
     @Override
     public KeyColumnValueStore openDatabase(String name, StoreMetaData.Container metaData) throws BackendException {
+        if (openStores.containsKey(getCacheName(name))) {
+            return openStores.get(name);
+        }
+        IgniteStore store = new IgniteStore(ignite.getOrCreateCache(buildCacheConfiguration(name)));
+        openStores.put(getCacheName(name), store);
         return null;
     }
 
@@ -67,6 +74,22 @@ public class IgniteStoreManager extends AbstractIgniteStoreManager {
     @Override
     public List<KeyRange> getLocalKeyPartition() throws BackendException {
         return null;
+    }
+
+    protected String getCacheName(String storeName) {
+        return group + "." + storeName;
+    }
+
+    /**
+     * @param cacheName store name
+     * @return CacheConfiguration {@link CacheConfiguration}
+     */
+    protected CacheConfiguration<StaticBuffer, LinkedHashMap<StaticBuffer, StaticBuffer>> buildCacheConfiguration(String cacheName) {
+        CacheConfiguration<StaticBuffer, LinkedHashMap<StaticBuffer, StaticBuffer>> configuration = new CacheConfiguration<>();
+        configuration.setBackups(backups);
+        configuration.setCacheMode(mode);
+        configuration.setName(cacheName);
+        return configuration;
     }
 
     // https://apacheignite.readme.io/docs/jcache
