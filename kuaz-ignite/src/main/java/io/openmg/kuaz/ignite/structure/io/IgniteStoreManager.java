@@ -1,4 +1,4 @@
-package io.openmg.kuaz.structure.io.ignite;
+package io.openmg.kuaz.ignite.structure.io;
 
 import com.thinkaurelius.titan.diskstorage.BackendException;
 import com.thinkaurelius.titan.diskstorage.BaseTransactionConfig;
