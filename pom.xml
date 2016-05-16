@@ -99,6 +99,14 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+        <repository>
+            <id>openmg-release</id>
+            <url>https://github.com/openmg/mvn-repository/raw/master/releases</url>
+        </repository>
+        <repository>
+            <id>openmg-snapshot</id>
+            <url>https://github.com/openmg/mvn-repository/raw/master/snapshots</url>
+        </repository>
     </repositories>
     <build>
         <directory>${basedir}/target</directory>

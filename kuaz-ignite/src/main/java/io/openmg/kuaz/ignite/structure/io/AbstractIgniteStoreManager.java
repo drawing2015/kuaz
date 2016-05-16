@@ -108,8 +108,8 @@ public abstract class AbstractIgniteStoreManager extends DistributedStoreManager
 
     protected Ignite ignite;
 
-    public AbstractIgniteStoreManager(Configuration storageConfig, int portDefault) {
-        super(storageConfig, portDefault);
+    public AbstractIgniteStoreManager(Configuration storageConfig) {
+        super(storageConfig, 47100);
         group = storageConfig.get(IGNITE_GROUP);
         gridName = storageConfig.get(GRID_NAME);
         reconnectCount = storageConfig.get(RECONNECT_COUNT);
