@@ -84,10 +84,6 @@ public class IgniteStoreManager extends AbstractIgniteStoreManager {
         return null;
     }
 
-    public static String getEdgeStoreCacheName(String graphName) {
-        return graphName + "_" + Backend.EDGESTORE_NAME;
-    }
-
     protected String getCacheName(String storeName) {
         return group + "." + storeName;
     }

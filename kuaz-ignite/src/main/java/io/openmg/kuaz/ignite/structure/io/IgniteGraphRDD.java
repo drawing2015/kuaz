@@ -11,8 +11,8 @@ import org.apache.ignite.spark.JavaIgniteRDD;
  */
 public class IgniteGraphRDD {
 
-    public JavaIgniteRDD<Object, TitanVertex> readGraphRDD(final String graphName, final JavaIgniteContext igniteContext) {
-        String cacheName = IgniteStoreManager.getEdgeStoreCacheName(graphName);
+    public JavaIgniteRDD<Object, TitanVertex> readGraphRDD(final String group, final JavaIgniteContext igniteContext) {
+        String cacheName = IgniteStoreManager.getCacheName(group);
         return igniteContext.fromCache(cacheName);
     }
 
