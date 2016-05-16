@@ -1,5 +1,6 @@
 package io.openmg.kuaz.ignite.structure.io;
 
+import com.thinkaurelius.titan.diskstorage.Backend;
 import com.thinkaurelius.titan.diskstorage.common.DistributedStoreManager;
 import com.thinkaurelius.titan.diskstorage.configuration.ConfigNamespace;
 import com.thinkaurelius.titan.diskstorage.configuration.ConfigOption;

@@ -1,56 +1,42 @@
 package io.openmg.kuaz.process.computer;
 
 import io.openmg.kuaz.structure.KuazGraph;
+import io.openmg.kuaz.structure.configuration.KuazGraphConfiguration;
 import org.apache.tinkerpop.gremlin.process.computer.*;
-import org.apache.tinkerpop.gremlin.process.computer.util.DefaultComputerResult;
+import org.apache.tinkerpop.gremlin.process.computer.util.GraphComputerHelper;
 import org.apache.tinkerpop.gremlin.process.traversal.Traversal;
 import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
+import org.apache.tinkerpop.gremlin.structure.util.StringFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Future;
 
 /**
  * Created by zizai (http://github.com/zizai).
  */
-public class KuazGraphComputer implements GraphComputer {
+public abstract class AbstractKuazGraphComputer implements GraphComputer {
 
-    private ResultGraph resultGraph = null;
-    private Persist persist = null;
+    protected ResultGraph resultGraph = null;
+    protected Persist persist = null;
 
-    private final KuazGraph kuazGraph;
-    private VertexProgram<?> vertexProgram;
+    protected final KuazGraph kuazGraph;
+    protected final KuazGraphConfiguration configuration;
+    protected VertexProgram<?> vertexProgram;
     protected final Logger logger;
-    private boolean executed = false;
-    private final Set<MapReduce> mapReducers = new HashSet<>();
-    private int workers = 1;
-    private final GraphFilter graphFilter = new GraphFilter();
+    protected boolean executed = false;
+    protected final Set<MapReduce> mapReducers = new HashSet<>();
+    protected int workers = 1;
+    protected final GraphFilter graphFilter = new GraphFilter();
 
-    public KuazGraphComputer(final KuazGraph kuazGraph) {
+    public AbstractKuazGraphComputer(final KuazGraph kuazGraph) {
         this.kuazGraph = kuazGraph;
+        this.configuration = kuazGraph.getConfiguration();
         this.logger = LoggerFactory.getLogger(this.getClass());
-
-
     }
-
-    @Override
-    public Future<ComputerResult> submit() {
-        //this.validateStatePriorToExecution();
-        return ComputerSubmissionHelper.runWithBackgroundThread(this::submitWithExecutor, "SparkSubmitter");
-    }
-
-    private Future<ComputerResult> submitWithExecutor(Executor exec) {
-        // create the completable future                                                    
-        return CompletableFuture.<ComputerResult>supplyAsync(() -> {
-            //
-        }, exec);
-    }
-
 
     @Override
     public GraphComputer result(final ResultGraph resultGraph) {
@@ -139,4 +125,35 @@ public class KuazGraphComputer implements GraphComputer {
             }
         };
     }
+
+    @Override
+    public String toString() {
+        return StringFactory.graphComputerString(this);
+    }
+
+    protected void validateStatePriorToExecution() {
+        // a graph computer can only be executed one time
+        if (this.executed)
+            throw Exceptions.computerHasAlreadyBeenSubmittedAVertexProgram();
+        else
+            this.executed = true;
+        // it is not possible execute a computer if it has no vertex program nor mapreducers
+        if (null == this.vertexProgram && this.mapReducers.isEmpty())
+            throw GraphComputer.Exceptions.computerHasNoVertexProgramNorMapReducers();
+        // it is possible to run mapreducers without a vertex program
+        if (null != this.vertexProgram) {
+            GraphComputerHelper.validateProgramOnComputer(this, vertexProgram);
+            this.mapReducers.addAll(this.vertexProgram.getMapReducers());
+        }
+        // if the user didn't set desired persistence/resultgraph, then get from vertex program or else, no persistence
+        this.persist = GraphComputerHelper.getPersistState(Optional.ofNullable(this.vertexProgram), Optional.ofNullable(this.persist));
+        this.resultGraph = GraphComputerHelper.getResultGraphState(Optional.ofNullable(this.vertexProgram), Optional.ofNullable(this.resultGraph));
+        // determine persistence and result graph options
+        if (!this.features().supportsResultGraphPersistCombination(this.resultGraph, this.persist))
+            throw GraphComputer.Exceptions.resultGraphPersistCombinationNotSupported(this.resultGraph, this.persist);
+        // if too many workers are requested, throw appropriate exception
+        if (this.workers > this.features().getMaxWorkers())
+            throw GraphComputer.Exceptions.computerRequiresMoreWorkersThanSupported(this.workers, this.features().getMaxWorkers());
+    }
+
 }

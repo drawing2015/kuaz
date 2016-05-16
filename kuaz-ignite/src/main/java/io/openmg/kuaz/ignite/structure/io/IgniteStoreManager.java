@@ -1,9 +1,6 @@
 package io.openmg.kuaz.ignite.structure.io;
 
-import com.thinkaurelius.titan.diskstorage.BackendException;
-import com.thinkaurelius.titan.diskstorage.BaseTransactionConfig;
-import com.thinkaurelius.titan.diskstorage.StaticBuffer;
-import com.thinkaurelius.titan.diskstorage.StoreMetaData;
+import com.thinkaurelius.titan.diskstorage.*;
 import com.thinkaurelius.titan.diskstorage.configuration.Configuration;
 import com.thinkaurelius.titan.diskstorage.keycolumnvalue.KCVMutation;
 import com.thinkaurelius.titan.diskstorage.keycolumnvalue.KeyColumnValueStore;
@@ -67,6 +64,10 @@ public class IgniteStoreManager extends AbstractIgniteStoreManager {
     @Override
     public List<KeyRange> getLocalKeyPartition() throws BackendException {
         return null;
+    }
+
+    public static String getEdgeStoreCacheName(String graphName) {
+        return graphName + "_" + Backend.EDGESTORE_NAME;
     }
 
     // https://apacheignite.readme.io/docs/jcache

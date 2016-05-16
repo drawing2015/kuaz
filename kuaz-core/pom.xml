@@ -37,6 +37,16 @@
             <artifactId>tinkergraph-gremlin</artifactId>
             <version>${tinkerpop.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.ignite</groupId>
+            <artifactId>ignite-spark</artifactId>
+            <version>${ignite.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tinkerpop</groupId>
+            <artifactId>spark-gremlin</artifactId>
+            <version>${tinkerpop.version}</version>
+        </dependency>
         <!-- Utility -->
         <dependency>
             <groupId>org.glassfish</groupId>
