@@ -1,3 +1,3 @@
-# What is Kuaz （侉子）？
+# What is Kuaz（侉子）？
 
-# Why Gremlin likes Kuaz？
+Kuaz is a distributed, high-performance TinkerPop implementation for massive-scale workloads.

@@ -17,7 +17,6 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.tinkerpop.gremlin.process.computer.ComputerResult;
 import org.apache.tinkerpop.gremlin.process.computer.GraphComputer;
 import org.apache.tinkerpop.gremlin.process.computer.VertexProgram;
-import org.apache.tinkerpop.gremlin.spark.process.computer.SparkMemory;
 import org.apache.tinkerpop.gremlin.spark.process.computer.payload.ViewIncomingPayload;
 
 import java.util.concurrent.CompletableFuture;
@@ -85,7 +84,7 @@ public class SparkGraphComputer extends AbstractKuazGraphComputer {
                     memory = new SparkMemory(this.vertexProgram, this.mapReducers, sparkContext);
                     this.vertexProgram.setup(memory);
                     memory.broadcastMemory(sparkContext);
-                    final HadoopConfiguration vertexProgramConfiguration = new HadoopConfiguration();
+                    final PropertiesConfiguration vertexProgramConfiguration = new PropertiesConfiguration();
                     this.vertexProgram.storeState(vertexProgramConfiguration);
                     ConfigurationUtils.copy(vertexProgramConfiguration, apacheConfiguration);
                     ConfUtil.mergeApacheIntoHadoopConfiguration(vertexProgramConfiguration, hadoopConfiguration);
