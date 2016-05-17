@@ -1,9 +1,11 @@
 package io.openmg.kuaz.ignite.structure.io;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.thinkaurelius.titan.diskstorage.BackendException;
 import com.thinkaurelius.titan.diskstorage.Entry;
 import com.thinkaurelius.titan.diskstorage.EntryList;
+import com.thinkaurelius.titan.diskstorage.EntryMetaData;
 import com.thinkaurelius.titan.diskstorage.StaticBuffer;
 import com.thinkaurelius.titan.diskstorage.keycolumnvalue.KCVMutation;
 import com.thinkaurelius.titan.diskstorage.keycolumnvalue.KeyColumnValueStore;
@@ -13,23 +15,30 @@ import com.thinkaurelius.titan.diskstorage.keycolumnvalue.KeyRangeQuery;
 import com.thinkaurelius.titan.diskstorage.keycolumnvalue.KeySliceQuery;
 import com.thinkaurelius.titan.diskstorage.keycolumnvalue.SliceQuery;
 import com.thinkaurelius.titan.diskstorage.keycolumnvalue.StoreTransaction;
+import com.thinkaurelius.titan.diskstorage.util.StaticArrayBuffer;
+import com.thinkaurelius.titan.diskstorage.util.StaticArrayEntry;
+import com.thinkaurelius.titan.diskstorage.util.StaticArrayEntryList;
 
 import org.apache.ignite.IgniteCache;
 
+import java.nio.ByteBuffer;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author Ranger Tsao(cao.zhifu@gmail.com)
  */
 public class IgniteStore implements KeyColumnValueStore {
 
-    //TODO could use a object instead of LinkedHashMap
-    private IgniteCache<StaticBuffer, LinkedHashMap<StaticBuffer, StaticBuffer>> cache;
+    //TODO could use a object instead of LinkedHashMap,then have column index
+    private IgniteCache<ByteBuffer, LinkedHashMap<ByteBuffer, ByteBuffer>> cache;
     private KeyColumnValueStoreManager storeManager;
 
-    public IgniteStore(IgniteCache<StaticBuffer, LinkedHashMap<StaticBuffer, StaticBuffer>> cache,
+    public IgniteStore(IgniteCache<ByteBuffer, LinkedHashMap<ByteBuffer, ByteBuffer>> cache,
                        KeyColumnValueStoreManager storeManager) {
         this.cache = cache;
         this.storeManager = storeManager;
@@ -37,12 +46,44 @@ public class IgniteStore implements KeyColumnValueStore {
 
     @Override
     public EntryList getSlice(KeySliceQuery query, StoreTransaction txh) throws BackendException {
-        return null;
+        ensureOpen();
+        Map<StaticBuffer, EntryList> result = getSlice(Arrays.asList(query.getKey()), query, txh);
+        return Iterables.getOnlyElement(result.values(), EntryList.EMPTY_LIST);
     }
 
     @Override
     public Map<StaticBuffer, EntryList> getSlice(List<StaticBuffer> keys, SliceQuery query, StoreTransaction txh) throws BackendException {
-        return null;
+        ensureOpen();
+        Map<ByteBuffer, LinkedHashMap<ByteBuffer, ByteBuffer>> hints = cache.getAll(keys.stream().map(StaticBuffer::asByteBuffer).collect(Collectors.toSet()));
+        Map<StaticBuffer, EntryList> result = new HashMap<>(hints.size());
+        for (Map.Entry<ByteBuffer, LinkedHashMap<ByteBuffer, ByteBuffer>> entry : hints.entrySet()) {
+            result.put(StaticArrayBuffer.of(entry.getKey()), buildEntryList(entry.getValue()));
+        }
+        return result;
+    }
+
+    private EntryList buildEntryList(LinkedHashMap<ByteBuffer, ByteBuffer> values) {
+        return StaticArrayEntryList.ofByteBuffer(values.entrySet(), new StaticArrayEntry.GetColVal<Map.Entry<ByteBuffer, ByteBuffer>, ByteBuffer>() {
+            @Override
+            public ByteBuffer getColumn(Map.Entry<ByteBuffer, ByteBuffer> element) {
+                return element.getKey();
+            }
+
+            @Override
+            public ByteBuffer getValue(Map.Entry<ByteBuffer, ByteBuffer> element) {
+                return element.getValue();
+            }
+
+            @Override
+            public EntryMetaData[] getMetaSchema(Map.Entry<ByteBuffer, ByteBuffer> element) {
+                return new EntryMetaData[0];
+            }
+
+            @Override
+            public Object getMetaData(Map.Entry<ByteBuffer, ByteBuffer> element, EntryMetaData meta) {
+                return null;
+            }
+        });
     }
 
     @Override

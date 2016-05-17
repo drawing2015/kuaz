@@ -20,6 +20,7 @@ import org.apache.ignite.cache.CacheAtomicityMode;
 import org.apache.ignite.cache.CacheMode;
 import org.apache.ignite.configuration.CacheConfiguration;
 
+import java.nio.ByteBuffer;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -37,7 +38,7 @@ public class IgniteStoreManager extends AbstractIgniteStoreManager {
     private final CacheAtomicityMode atomicityMode;
 
     private Map<String, IgniteStore> openStores = new ConcurrentHashMap<>();
-    private Map<String, IgniteCache<StaticBuffer, LinkedHashMap<StaticBuffer, StaticBuffer>>> caches = new ConcurrentHashMap<>();
+    private Map<String, IgniteCache<ByteBuffer, LinkedHashMap<ByteBuffer, ByteBuffer>>> caches = new ConcurrentHashMap<>();
     private Set<String> cacheNames = new HashSet<>();
 
     public IgniteStoreManager(Configuration storageConfig, int portDefault) {
@@ -71,18 +72,18 @@ public class IgniteStoreManager extends AbstractIgniteStoreManager {
         IgniteStoreTransaction tx = getTxn(txh);
         for (Map.Entry<String, Map<StaticBuffer, KCVMutation>> mutation : mutations.entrySet()) {
             //TODO use ignite transaction
-            IgniteCache<StaticBuffer, LinkedHashMap<StaticBuffer, StaticBuffer>> cache = caches.get(mutation.getKey());
+            IgniteCache<ByteBuffer, LinkedHashMap<ByteBuffer, ByteBuffer>> cache = caches.get(mutation.getKey());
             for (Map.Entry<StaticBuffer, KCVMutation> kcv : mutation.getValue().entrySet()) {
                 //first load the value from ignite
-                LinkedHashMap<StaticBuffer, StaticBuffer> values = cache.get(kcv.getKey());
+                LinkedHashMap<ByteBuffer, ByteBuffer> values = cache.get(kcv.getKey().asByteBuffer());
                 //TODO deal with ttl
                 if (kcv.getValue().hasAdditions()) {
-                    kcv.getValue().getAdditions().forEach(entry -> values.put(entry.getColumn(), entry.getValue()));
+                    kcv.getValue().getAdditions().forEach(entry -> values.put(entry.getColumn().asByteBuffer(), entry.getValue().asByteBuffer()));
                 }
                 if (kcv.getValue().hasDeletions()) {
-                    kcv.getValue().getDeletions().forEach(values::remove);
+                    kcv.getValue().getDeletions().forEach(buffer -> values.remove(buffer.asByteBuffer()));
                 }
-                cache.put(kcv.getKey(), values);
+                cache.put(kcv.getKey().asByteBuffer(), values);
             }
         }
     }
@@ -154,8 +155,8 @@ public class IgniteStoreManager extends AbstractIgniteStoreManager {
      * @param cacheName store name
      * @return CacheConfiguration {@link CacheConfiguration}
      */
-    protected CacheConfiguration<StaticBuffer, LinkedHashMap<StaticBuffer, StaticBuffer>> buildCacheConfiguration(String cacheName) {
-        CacheConfiguration<StaticBuffer, LinkedHashMap<StaticBuffer, StaticBuffer>> configuration = new CacheConfiguration<>();
+    protected CacheConfiguration<ByteBuffer, LinkedHashMap<ByteBuffer, ByteBuffer>> buildCacheConfiguration(String cacheName) {
+        CacheConfiguration<ByteBuffer, LinkedHashMap<ByteBuffer, ByteBuffer>> configuration = new CacheConfiguration<>();
         configuration.setBackups(backups);
         configuration.setCacheMode(mode);
         configuration.setName(cacheName);
