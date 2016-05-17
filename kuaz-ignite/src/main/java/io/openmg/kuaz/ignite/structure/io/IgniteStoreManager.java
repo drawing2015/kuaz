@@ -19,6 +19,11 @@ import org.apache.ignite.IgniteException;
 import org.apache.ignite.cache.CacheAtomicityMode;
 import org.apache.ignite.cache.CacheMode;
 import org.apache.ignite.configuration.CacheConfiguration;
+import org.apache.ignite.configuration.IgniteConfiguration;
+import org.apache.ignite.spark.IgniteContext;
+import org.apache.ignite.spark.JavaIgniteContext;
+import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaSparkContext;
 
 import java.nio.ByteBuffer;
 import java.util.HashSet;
@@ -37,15 +42,26 @@ public class IgniteStoreManager extends AbstractIgniteStoreManager {
     private final CacheMode mode;
     private final CacheAtomicityMode atomicityMode;
 
+    private final IgniteConfiguration igniteConf;
+    private final SparkConf sparkConf;
+    private final JavaIgniteContext igniteContext;
+    private final JavaSparkContext sparkContext;
+
     private Map<String, IgniteStore> openStores = new ConcurrentHashMap<>();
     private Map<String, IgniteCache<ByteBuffer, LinkedHashMap<ByteBuffer, ByteBuffer>>> caches = new ConcurrentHashMap<>();
     private Set<String> cacheNames = new HashSet<>();
 
-    public IgniteStoreManager(Configuration storageConfig, int portDefault) {
-        super(storageConfig, portDefault);
+    public IgniteStoreManager(Configuration storageConfig) {
+        super(storageConfig);
         backups = storageConfig.get(CACHE_BACKUPS);
         mode = storageConfig.get(CACHE_MODE);
         atomicityMode = storageConfig.get(CACHE_ATOMICITY_MODE);
+
+        // FIXME
+        sparkConf = new SparkConf();
+        sparkContext = new JavaSparkContext(sparkConf);
+        igniteConf = new IgniteConfiguration();
+        igniteContext = new JavaIgniteContext(sparkContext, () -> igniteConf);
     }
 
     @Override
@@ -149,6 +165,22 @@ public class IgniteStoreManager extends AbstractIgniteStoreManager {
 
     protected String getCacheName(String storeName) {
         return group + "." + storeName;
+    }
+
+    public JavaIgniteContext getIgniteContext() {
+        return igniteContext;
+    }
+
+    public IgniteConfiguration getIgniteConf() {
+        return igniteConf;
+    }
+
+    public JavaSparkContext getSparkContext() {
+        return sparkContext;
+    }
+
+    public SparkConf getSparkConf() {
+        return sparkConf;
     }
 
     /**

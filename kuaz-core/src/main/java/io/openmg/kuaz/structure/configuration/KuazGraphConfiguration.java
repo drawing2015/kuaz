@@ -26,11 +26,4 @@ public class KuazGraphConfiguration extends GraphDatabaseConfiguration {
     public static final ConfigNamespace SPARK_NS = new ConfigNamespace(ROOT_NS, "spark",
             "Spark configuration options");
 
-    public String getIgniteConfPath() {
-        return "";
-    }
-
-    public SparkConf getSparkConf() {
-        return new SparkConf();
-    }
 }

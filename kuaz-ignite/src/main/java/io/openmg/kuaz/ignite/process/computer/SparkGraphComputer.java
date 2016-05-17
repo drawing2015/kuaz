@@ -2,23 +2,28 @@ package io.openmg.kuaz.ignite.process.computer;
 
 import com.thinkaurelius.titan.core.TitanVertex;
 import io.openmg.kuaz.ignite.structure.io.IgniteGraphRDD;
+import io.openmg.kuaz.ignite.structure.io.IgniteStoreManager;
 import io.openmg.kuaz.process.computer.AbstractKuazGraphComputer;
 import io.openmg.kuaz.process.computer.ComputerSubmissionHelper;
 import io.openmg.kuaz.structure.KuazFactory;
 import io.openmg.kuaz.structure.KuazGraph;
 import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationUtils;
 import org.apache.commons.configuration.FileConfiguration;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.ignite.spark.JavaIgniteContext;
-import org.apache.ignite.spark.JavaIgniteRDD;
 import org.apache.spark.SparkConf;
-import org.apache.spark.SparkContext;
+import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.tinkerpop.gremlin.process.computer.ComputerResult;
-import org.apache.tinkerpop.gremlin.process.computer.GraphComputer;
-import org.apache.tinkerpop.gremlin.process.computer.VertexProgram;
+import org.apache.tinkerpop.gremlin.hadoop.Constants;
+import org.apache.tinkerpop.gremlin.process.computer.*;
+import org.apache.tinkerpop.gremlin.process.computer.util.DefaultComputerResult;
+import org.apache.tinkerpop.gremlin.process.computer.util.MapMemory;
 import org.apache.tinkerpop.gremlin.spark.process.computer.payload.ViewIncomingPayload;
+import org.apache.tinkerpop.gremlin.spark.structure.Spark;
+import org.apache.tinkerpop.gremlin.spark.structure.io.InputOutputHelper;
 
+import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
@@ -28,16 +33,19 @@ import java.util.concurrent.Future;
  */
 public class SparkGraphComputer extends AbstractKuazGraphComputer {
 
-    private final Configuration sparkConfiguration;
+    private final Configuration apacheConfiguration;
+    private final IgniteStoreManager igniteStoreManager;
 
     public SparkGraphComputer(KuazGraph kuazGraph) {
         super(kuazGraph);
-        this.sparkConfiguration = new PropertiesConfiguration();
+
+        igniteStoreManager = new IgniteStoreManager(kuazGraph.getConfiguration().getConfiguration());
+        apacheConfiguration = kuazGraph.getConfiguration().getLocalConfiguration();
     }
 
     @Override
     public GraphComputer configure(final String key, final Object value) {
-        this.sparkConfiguration.setProperty(key, value);
+        this.apacheConfiguration.setProperty(key, value);
         return this;
     }
 
@@ -52,42 +60,41 @@ public class SparkGraphComputer extends AbstractKuazGraphComputer {
         return CompletableFuture.<ComputerResult>supplyAsync(() -> {
             final long startTime = System.currentTimeMillis();
 
-            final IgniteGraphRDD graphRDD = new IgniteGraphRDD();
+            final IgniteGraphRDD igniteGraphRDD = new IgniteGraphRDD();
             SparkMemory memory = null;
 
             // create the spark configuration from the graph computer configuration
-            final SparkConf sparkConf = this.configuration.getSparkConf();
+            final SparkConf sparkConf = igniteStoreManager.getSparkConf();
 
             // execute the vertex program and map reducers and if there is a failure, auto-close the spark context
             try {
-                final JavaSparkContext sparkContext = new JavaSparkContext(SparkContext.getOrCreate(sparkConf));
-                final JavaIgniteContext igniteContext = new JavaIgniteContext(sparkContext, this.configuration.getIgniteConfPath());
+                final JavaSparkContext sparkContext = igniteStoreManager.getSparkContext();
+                final JavaIgniteContext igniteContext = igniteStoreManager.getIgniteContext();
 
                 // add the project jars to the cluster
                 //this.loadJars(sparkContext, hadoopConfiguration);
 
                 // this is the context RDD holder that prevents GC
-                //Spark.create(sparkContext.sc());
+                Spark.create(sparkContext.sc());
                 updateLocalConfiguration(sparkContext, sparkConf);
 
                 // create a message-passing friendly rdd from the input rdd
-                JavaIgniteRDD<Object, TitanVertex> computedGraphRDD = null;
+                JavaPairRDD<Object, TitanVertex> computedGraphRDD = null;
                 boolean partitioned = false;
-                JavaIgniteRDD<Object, TitanVertex> loadedGraphRDD = graphRDD.readGraphRDD(this.configuration.getUniqueGraphId(), igniteContext);
+                JavaPairRDD<Object, TitanVertex> loadedGraphRDD = igniteGraphRDD.readGraphRDD(igniteStoreManager);
 
                 ////////////////////////////////
                 // process the vertex program //
                 ////////////////////////////////
                 if (null != this.vertexProgram) {
                     // set up the vertex program and wire up configurations
-                    JavaIgniteRDD<Object, ViewIncomingPayload<Object>> viewIncomingRDD = null;
+                    JavaPairRDD<Object, ViewIncomingPayload<Object>> viewIncomingRDD = null;
                     memory = new SparkMemory(this.vertexProgram, this.mapReducers, sparkContext);
                     this.vertexProgram.setup(memory);
                     memory.broadcastMemory(sparkContext);
                     final PropertiesConfiguration vertexProgramConfiguration = new PropertiesConfiguration();
                     this.vertexProgram.storeState(vertexProgramConfiguration);
                     ConfigurationUtils.copy(vertexProgramConfiguration, apacheConfiguration);
-                    ConfUtil.mergeApacheIntoHadoopConfiguration(vertexProgramConfiguration, hadoopConfiguration);
                     // execute the vertex program
                     while (true) {
                         memory.setInExecute(true);
@@ -100,11 +107,13 @@ public class SparkGraphComputer extends AbstractKuazGraphComputer {
                             memory.broadcastMemory(sparkContext);
                         }
                     }
-                    memory.complete(); // drop all transient memory keys
-                    // write the computed graph to the respective output (rdd or output format)
+                    // drop all transient memory keys
+                    memory.complete();
+
+                    // write the computed graph to the respective output
                     computedGraphRDD = SparkExecutor.prepareFinalGraphRDD(loadedGraphRDD, viewIncomingRDD, this.vertexProgram.getVertexComputeKeys());
-                    if (null != outputRDD && !this.persist.equals(Persist.NOTHING)) {
-                        outputRDD.writeGraphRDD(apacheConfiguration, computedGraphRDD);
+                    if (!this.persist.equals(Persist.NOTHING)) {
+                        igniteGraphRDD.writeGraphRDD(igniteStoreManager, computedGraphRDD);
                     }
                 }
 
@@ -118,7 +127,8 @@ public class SparkGraphComputer extends AbstractKuazGraphComputer {
                 // process the map reducers //
                 //////////////////////////////
                 if (!this.mapReducers.isEmpty()) {
-                    if (computedGraphCreated && !outputToSpark) {
+                    /*
+                    if (computedGraphCreated) {
                         // drop all the edges of the graph as they are not used in mapReduce processing
                         computedGraphRDD = computedGraphRDD.mapValues(vertexWritable -> {
                             vertexWritable.get().dropEdges(Direction.BOTH);
@@ -128,38 +138,26 @@ public class SparkGraphComputer extends AbstractKuazGraphComputer {
                         if (this.mapReducers.size() > 1)
                             computedGraphRDD = computedGraphRDD.persist(StorageLevel.fromString(hadoopConfiguration.get(Constants.GREMLIN_SPARK_GRAPH_STORAGE_LEVEL, "MEMORY_ONLY")));
                     }
+                    */
 
                     for (final MapReduce mapReduce : this.mapReducers) {
                         // execute the map reduce job
-                        final HadoopConfiguration newApacheConfiguration = new HadoopConfiguration(apacheConfiguration);
-                        mapReduce.storeState(newApacheConfiguration);
                         // map
-                        final JavaPairRDD mapRDD = SparkExecutor.executeMap((JavaPairRDD) computedGraphRDD, mapReduce, newApacheConfiguration);
+                        final JavaPairRDD mapRDD = SparkExecutor.executeMap((JavaPairRDD) computedGraphRDD, mapReduce, apacheConfiguration);
                         // combine
-                        final JavaPairRDD combineRDD = mapReduce.doStage(MapReduce.Stage.COMBINE) ? SparkExecutor.executeCombine(mapRDD, newApacheConfiguration) : mapRDD;
+                        final JavaPairRDD combineRDD = mapReduce.doStage(MapReduce.Stage.COMBINE) ? SparkExecutor.executeCombine(mapRDD, apacheConfiguration) : mapRDD;
                         // reduce
-                        final JavaPairRDD reduceRDD = mapReduce.doStage(MapReduce.Stage.REDUCE) ? SparkExecutor.executeReduce(combineRDD, mapReduce, newApacheConfiguration) : combineRDD;
+                        final JavaPairRDD reduceRDD = mapReduce.doStage(MapReduce.Stage.REDUCE) ? SparkExecutor.executeReduce(combineRDD, mapReduce, apacheConfiguration) : combineRDD;
                         // write the map reduce output back to disk and computer result memory
-                        if (null != outputRDD)
-                            mapReduce.addResultToMemory(finalMemory, outputRDD.writeMemoryRDD(apacheConfiguration, mapReduce.getMemoryKey(), reduceRDD));
+                        igniteGraphRDD.writeGraphRDD(igniteStoreManager, reduceRDD);
+                        mapReduce.addResultToMemory(finalMemory, Collections.emptyIterator());
 
                     }
                 }
 
-                // unpersist the loaded graph if it will not be used again (no PersistedInputRDD)
-                // if the graphRDD was loaded from Spark, but then partitioned, its a different RDD
-                if ((!inputFromSpark || partitioned || filtered) && computedGraphCreated)
-                    loadedGraphRDD.unpersist();
-                // unpersist the computed graph if it will not be used again (no PersistedOutputRDD)
-                if (!outputToSpark || this.persist.equals(GraphComputer.Persist.NOTHING))
-                    computedGraphRDD.unpersist();
-                // delete any file system or rdd data if persist nothing
-                if (null != outputLocation && this.persist.equals(GraphComputer.Persist.NOTHING)) {
-                    if (outputToHDFS)
-                        fileSystemStorage.rm(outputLocation);
-                    if (outputToSpark)
-                        sparkContextStorage.rm(outputLocation);
-                }
+                loadedGraphRDD.unpersist();
+                computedGraphRDD.unpersist();
+
                 // update runtime and return the newly computed graph
                 finalMemory.setRuntime(System.currentTimeMillis() - startTime);
                 return new DefaultComputerResult(InputOutputHelper.getOutputGraph(apacheConfiguration, this.resultGraph, this.persist), finalMemory.asImmutable());
@@ -176,7 +174,7 @@ public class SparkGraphComputer extends AbstractKuazGraphComputer {
      * in configuration. Spark allows us to override these inherited properties via
      * SparkContext.setLocalProperty
      */
-    private void updateLocalConfiguration(final JavaSparkContext sparkContext, final SparkConf sparkConfiguration) {
+    private void updateLocalConfiguration(final JavaSparkContext sparkContext, final SparkConf sparkConf) {
         /*
          * While we could enumerate over the entire SparkConfiguration and copy into the Thread
          * Local properties of the Spark Context this could cause adverse effects with future
@@ -192,12 +190,12 @@ public class SparkGraphComputer extends AbstractKuazGraphComputer {
         };
 
         for (String propertyName : validPropertyNames) {
-            if (sparkConfiguration.contains(propertyName)) {
-                String propertyValue = sparkConfiguration.get(propertyName);
+            if (sparkConf.contains(propertyName)) {
+                String propertyValue = sparkConf.get(propertyName);
                 this.logger.info("Setting Thread Local SparkContext Property - "
                         + propertyName + " : " + propertyValue);
 
-                sparkContext.setLocalProperty(propertyName, sparkConfiguration.get(propertyName));
+                sparkContext.setLocalProperty(propertyName, sparkConf.get(propertyName));
             }
         }
     }
