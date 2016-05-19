@@ -1,12 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>io.openmg.kuaz</groupId>
         <artifactId>kuaz</artifactId>
         <version>0.1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
+
     <artifactId>kuaz-core</artifactId>
+    <packaging>jar</packaging>
+
     <name>Kuaz-Core: Core Library for Kuaz</name>
     <url>https://github.com/openmg/kuaz</url>
     
@@ -19,7 +23,6 @@
         <dependency>
             <groupId>org.apache.tinkerpop</groupId>
             <artifactId>gremlin-core</artifactId>
-            <version>${tinkerpop.version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>gossip</artifactId>
@@ -30,86 +33,20 @@
         <dependency>
             <groupId>org.apache.tinkerpop</groupId>
             <artifactId>gremlin-groovy</artifactId>
-            <version>${tinkerpop.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tinkerpop</groupId>
             <artifactId>tinkergraph-gremlin</artifactId>
-            <version>${tinkerpop.version}</version>
+            <scope>test</scope>
         </dependency>
+
         <dependency>
-            <groupId>org.apache.ignite</groupId>
-            <artifactId>ignite-spark</artifactId>
-            <version>${ignite.version}</version>
+            <groupId>com.thinkaurelius.titan</groupId>
+            <artifactId>titan-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.apache.tinkerpop</groupId>
-            <artifactId>spark-gremlin</artifactId>
-            <version>${tinkerpop.version}</version>
-        </dependency>
-        <!-- Utility -->
-        <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>javax.json</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.codahale.metrics</groupId>
-            <artifactId>metrics-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.codahale.metrics</groupId>
-            <artifactId>metrics-ganglia</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.codahale.metrics</groupId>
-            <artifactId>metrics-graphite</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.reflections</groupId>
-            <artifactId>reflections</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.spatial4j</groupId>
-            <artifactId>spatial4j</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-collections</groupId>
-            <artifactId>commons-collections</artifactId>
-            <version>3.2.1</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-configuration</groupId>
-            <artifactId>commons-configuration</artifactId>
-            <version>1.10</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <version>1.7</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.carrotsearch</groupId>
-            <artifactId>hppc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.stephenc.high-scale-lib</groupId>
-            <artifactId>high-scale-lib</artifactId>
-            <version>1.1.4</version>
-        </dependency>
-       <dependency>
-           <groupId>com.google.code.findbugs</groupId>
-           <artifactId>jsr305</artifactId>
-       </dependency>
+
     </dependencies>
+
     <build>
         <directory>${basedir}/target</directory>
         <resources>
@@ -125,24 +62,6 @@
             </testResource>
         </testResources>
         <plugins>
-            <!--<plugin>
-                <groupId>org.codehaus.gmaven</groupId>
-                <artifactId>gmaven-plugin</artifactId>
-                <version>1.5</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generateStubs</goal>
-                            <goal>compile</goal>
-                            <goal>generateTestStubs</goal>
-                            <goal>testCompile</goal>
-                        </goals>
-                        <configuration>
-                            <providerSelection>1.8</providerSelection>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -173,61 +92,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>2.3</version>
-                <executions>
-                    <execution>
-                        <id>shade-gremlin-groovy</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <artifactSet>
-                                <includes>
-                                    <include>com.esotericsoftware.kryo:*</include>
-                                    <include>com.esotericsoftware.minlog:*</include>
-                                    <include>com.esotericsoftware.reflectasm:*</include>
-                                    <include>org.objenesis:*</include>
-                                </includes>
-                            </artifactSet>
-                            <filters>
-                                <filter>
-                                    <artifact>*:*</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/MANIFEST.MF</exclude>
-                                    </excludes>
-                                </filter>
-                            </filters>
-                            <relocations>
-                                <relocation>
-                                    <pattern>com.esotericsoftware.kryo</pattern>
-                                    <shadedPattern>com.thinkaurelius.shaded.kryo_2_24_0</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>com.esotericsoftware.minlog</pattern>
-                                    <shadedPattern>com.thinkaurelius.shaded.minlog_1_2</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>com.esotericsoftware.reflectasm</pattern>
-                                    <shadedPattern>com.thinkaurelius.shaded.kryo_2_24_0_reflectasm</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.objenesis</pattern>
-                                    <shadedPattern>com.thinkaurelius.shaded.objenesis_2_1</shadedPattern>
-                                </relocation>
-                            </relocations>
-                            <!-- false below means the shade plugin overwrites the main project artifact (the one with no classifier).
-                                 false does *not* actually detach the main artifact, despite what the option name suggests. -->
-                            <shadedArtifactAttached>false</shadedArtifactAttached>
-                            <minimizeJar>false</minimizeJar>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
         </plugins>
     </build>
+
 </project>
